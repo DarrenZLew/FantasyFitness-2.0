@@ -1,16 +1,29 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import { Login } from "./Pages";
+import { MenuRouter } from "./Menu/MenuRouter";
+import { Login, Score } from "./Pages";
 
-const Routes = () => (
-  <Switch>
-    <Route path="/" exact render={props => <Login />} />
-    <Route path="/score" exact render={props => <Login />} />
-    <Route path="/scoresheet" exact render={props => <Login />} />
-    <Route path="/league" exact render={props => <Login />} />
-    <Route path="/profile" exact render={props => <Login />} />
-    <Route path="/logout" exact render={props => <Login />} />
-  </Switch>
-);
+const Routes = ({ auth }) => {
+  const pageRender = (props, Page) => {
+    return auth ? (
+      <MenuRouter>
+        <Page {...props} />
+      </MenuRouter>
+    ) : (
+      <Page {...props} />
+    );
+  };
+
+  return (
+    <Switch>
+      <Route path="/" exact render={props => pageRender(props, Login)} />
+      <Route path="/score" exact render={props => pageRender(props, Score)} />
+      {/* <Route path="/scoresheet" exact render={PageRender} />
+    <Route path="/league" exact render={PageRender} />
+    <Route path="/profile" exact render={PageRender} />
+    <Route path="/logout" exact render={PageRender} /> */}
+    </Switch>
+  );
+};
 
 export default Routes;

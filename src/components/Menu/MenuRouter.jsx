@@ -9,10 +9,6 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuButton from "./MenuButton";
 import routeItems from "./menuRouteItems";
 
-// import Switch from "@material-ui/core/Switch";
-// import FormControlLabel from "@material-ui/core/FormControlLabel";
-// import FormGroup from "@material-ui/core/FormGroup";
-
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
@@ -22,31 +18,20 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const MenuRouter = () => {
+export const MenuRouter = props => {
   const classes = useStyles();
-  const [auth, setAuth] = React.useState(true);
-
-  //   function handleChange(event) {
-  //     setAuth(event.target.checked);
-  //   }
-
   return (
     <div className={classes.root}>
-      {/* <FormGroup>
-        <FormControlLabel
-          control={<Switch checked={auth} onChange={handleChange} aria-label="login switch" />}
-          label={auth ? "Logout" : "Login"}
-        />
-      </FormGroup> */}
       <AppBar position="static">
         <Toolbar>
           <MenuButton iconType={MenuIcon} items={routeItems.menu} />
           <Typography variant="h6" className={classes.title}>
             Fantasy Fitness
           </Typography>
-          {auth && <MenuButton iconType={AccountCircle} items={routeItems.account} />}
+          <MenuButton iconType={AccountCircle} items={routeItems.account} />
         </Toolbar>
       </AppBar>
+      {props.children ? props.children : null}
     </div>
   );
 };

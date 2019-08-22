@@ -1,16 +1,15 @@
 import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { MenuRouter } from "./components/Menu/MenuRouter";
 import Routes from "./components/Routes";
 
 function App() {
+  const [auth, setAuth] = React.useState(false);
   return (
     <div className="app-container">
       <CssBaseline />
       <Router>
-        <MenuRouter />
-        <Routes />
+        <Routes auth={auth} />
       </Router>
     </div>
   );
