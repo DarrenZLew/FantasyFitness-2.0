@@ -8,12 +8,6 @@ import { Link } from "react-router-dom";
 const useStyles = makeStyles(theme => ({
   menuButton: {
     marginRight: theme.spacing(2)
-  },
-  link: {
-    textDecoration: "none",
-    "&:visited": {
-      color: "inherit"
-    }
   }
 }));
 
@@ -32,10 +26,8 @@ const MenuButton = props => {
   }
 
   const listItems = props.items.map(({ name, link }, index) => (
-    <MenuItem key={index} onClick={handleClose}>
-      <Link to={link} className={classes.link}>
-        {name}
-      </Link>
+    <MenuItem compponent={Link} to={link} key={index} onClick={handleClose}>
+      {name}
     </MenuItem>
   ));
 
