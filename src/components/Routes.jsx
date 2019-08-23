@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import { MenuRouter } from "./Menu/MenuRouter";
-import { Login, Signup, Score } from "./Pages";
+import { Login, Signup, Score, ForgotPassword } from "./Pages";
 
 const Routes = ({ auth }) => {
   const pageRender = (props, Page) => {
@@ -18,6 +18,7 @@ const Routes = ({ auth }) => {
     <Switch>
       <Route path="/" exact render={props => pageRender(props, Login)} />
       <Route path="/login" exact render={props => pageRender(props, Login)} />
+      <Route path="/login/identity" exact render={props => pageRender(props, ForgotPassword)} />
       <Route path="/signup" exact render={props => pageRender(props, Signup)} />
       <Route path="/score" exact render={props => pageRender(props, Score)} />
       {/* <Route path="/scoresheet" exact render={PageRender} />
