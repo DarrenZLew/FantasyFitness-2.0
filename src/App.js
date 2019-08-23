@@ -13,7 +13,7 @@ const theme = createMuiTheme({
       main: "#1e88e5"
     },
     secondary: {
-      main: "#7e57c2"
+      main: "#5e35b1"
     },
     error: red,
     tonalOffset: 0.2
