@@ -1,15 +1,12 @@
 import React from "react";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
-import FitnessCenterIcon from "@material-ui/icons/FitnessCenter";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Link as RouterLink } from "react-router-dom";
+import SignInForm from "../../forms/SignInForm";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -18,18 +15,21 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "column",
     alignItems: "center"
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
-  },
   form: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(3)
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2)
   }
 }));
+
+const BottomForm = () => (
+  <Grid container justify="flex-end">
+    <Grid item>
+      <Link component={RouterLink} to="/login">
+        Already have an account? Sign in
+      </Link>
+    </Grid>
+  </Grid>
+);
 
 export function Signup() {
   const classes = useStyles();
@@ -38,13 +38,7 @@ export function Signup() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <FitnessCenterIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign Up
-        </Typography>
-        <form className={classes.form} noValidate>
+        <SignInForm formHeader="Sign Up" submitText="Sign Up" bottomForm={BottomForm}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -56,6 +50,7 @@ export function Signup() {
                 id="firstName"
                 label="First Name"
                 autoFocus
+                margin="normal"
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -67,6 +62,7 @@ export function Signup() {
                 label="Last Name"
                 name="lastName"
                 autoComplete="lname"
+                margin="normal"
               />
             </Grid>
             <Grid item xs={12}>
@@ -93,23 +89,7 @@ export function Signup() {
               />
             </Grid>
           </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign Up
-          </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Link component={RouterLink} to="/login">
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
+        </SignInForm>
       </div>
     </Container>
   );
