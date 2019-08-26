@@ -1,5 +1,4 @@
-import React from "react";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
@@ -34,9 +33,19 @@ const BottomForm = () => (
 export function Signup() {
   const classes = useStyles();
 
+  const [signupState, updateSignupState] = useState({
+    fname: "",
+    lname: "",
+    email: "",
+    password: ""
+  });
+
+  const handleChange = name => e => {
+    updateSignupState({ ...signupState, [name]: e.target.value });
+  };
+
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
       <div className={classes.paper}>
         <SignInForm formHeader="Sign Up" submitText="Sign Up" bottomForm={BottomForm}>
           <Grid container spacing={2}>
@@ -51,6 +60,8 @@ export function Signup() {
                 label="First Name"
                 autoFocus
                 margin="normal"
+                onChange={handleChange("fname")}
+                value={signupState.fname}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -63,6 +74,8 @@ export function Signup() {
                 name="lastName"
                 autoComplete="lname"
                 margin="normal"
+                onChange={handleChange("lname")}
+                value={signupState.lname}
               />
             </Grid>
             <Grid item xs={12}>
@@ -74,6 +87,8 @@ export function Signup() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange={handleChange("email")}
+                value={signupState.email}
               />
             </Grid>
             <Grid item xs={12}>
@@ -86,6 +101,8 @@ export function Signup() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={handleChange("password")}
+                value={signupState.password}
               />
             </Grid>
           </Grid>

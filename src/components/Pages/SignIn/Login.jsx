@@ -1,5 +1,4 @@
-import React from "react";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -25,6 +24,16 @@ const useStyles = makeStyles(theme => ({
 
 export const Login = () => {
   const classes = useStyles();
+  const [loginState, updateLoginState] = useState({
+    email: "",
+    password: "",
+    remember: false
+  });
+
+  const handleChange = name => e => {
+    const newValue = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    updateLoginState({ ...loginState, [name]: newValue });
+  };
 
   const BottomForm = () => (
     <Grid container>
@@ -43,7 +52,6 @@ export const Login = () => {
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
       <div className={classes.paper}>
         <SignInForm formHeader="Sign In" submitText="Sign In" bottomForm={BottomForm}>
           <Grid container spacing={2}>
@@ -57,6 +65,8 @@ export const Login = () => {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={handleChange("email")}
+              value={loginState.email}
             />
             <TextField
               variant="outlined"
@@ -68,9 +78,18 @@ export const Login = () => {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={handleChange("password")}
+              value={loginState.password}
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={
+                <Checkbox
+                  value={loginState.remember}
+                  checked={loginState.remember}
+                  onChange={handleChange("remember")}
+                  color="primary"
+                />
+              }
               label="Remember me"
             />
           </Grid>

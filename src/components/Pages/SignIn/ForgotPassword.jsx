@@ -1,5 +1,4 @@
-import React from "react";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
@@ -34,9 +33,14 @@ const BottomForm = () => (
 export const ForgotPassword = () => {
   const classes = useStyles();
 
+  const [emailState, updateEmailState] = useState("");
+
+  const handleChange = e => {
+    updateEmailState(e.target.value);
+  };
+
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
       <div className={classes.paper}>
         <SignInForm
           formHeader="Forget Your Password?"
@@ -53,6 +57,8 @@ export const ForgotPassword = () => {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={handleChange}
+            value={emailState}
           />
         </SignInForm>
       </div>
