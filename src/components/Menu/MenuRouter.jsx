@@ -4,25 +4,35 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Drawer, AppBar, Toolbar, Typography, Divider, IconButton } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import Hidden from "@material-ui/core/Hidden";
 
 import MenuRouteList from "./MenuRouteList";
 import routeItems from "./menuRouteItems";
 
-const drawerWidth = 240;
+const drawerWidth = 200;
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1,
-    display: "flex"
-  },
-  title: {
+    display: "flex",
     flexGrow: 1
   },
-  menuButton: {
-    marginRight: theme.spacing(2)
+  drawer: {
+    [theme.breakpoints.up("sm")]: {
+      width: drawerWidth,
+      flexShrink: 0
+    }
   },
-  hide: {
-    display: "none"
+  appBar: {
+    marginLeft: drawerWidth,
+    [theme.breakpoints.up("sm")]: {
+      width: `calc(100% - ${drawerWidth}px)`
+    }
+  },
+  menuButton: {
+    marginRight: theme.spacing(1),
+    [theme.breakpoints.up("sm")]: {
+      display: "none"
+    }
   },
   toolbar: {
     display: "flex",
@@ -31,43 +41,8 @@ const useStyles = makeStyles(theme => ({
     padding: "0 8px",
     ...theme.mixins.toolbar
   },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    })
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: "nowrap"
-  },
-  drawerOpen: {
-    width: drawerWidth,
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
-  },
-  drawerClose: {
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    }),
-    overflowX: "hidden",
-    width: theme.spacing(7) + 1,
-    [theme.breakpoints.up("sm")]: {
-      width: theme.spacing(9) + 1
-    }
+  drawerPaper: {
+    width: drawerWidth
   },
   content: {
     flexGrow: 1,
@@ -90,7 +65,7 @@ export const MenuRouter = props => {
   const drawer = (
     <div>
       <div className={classes.toolbar}>
-        <IconButton onClick={handleDrawerClose}>
+        <IconButton onClick={handleDrawerClose} className={classes.menuButton}>
           <ChevronLeftIcon />
         </IconButton>
       </div>
@@ -103,12 +78,7 @@ export const MenuRouter = props => {
 
   return (
     <div className={classes.root}>
-      <AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: drawerOpen
-        })}
-      >
+      <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -126,23 +96,33 @@ export const MenuRouter = props => {
           </Typography>
         </Toolbar>
       </AppBar>
-      <nav area-label="mailbox filders">
-        <Drawer
-          className={clsx(classes.drawer, {
-            [classes.drawerOpen]: drawerOpen,
-            [classes.drawerClose]: !drawerOpen
-          })}
-          classes={{
-            paper: clsx({
-              [classes.drawerOpen]: drawerOpen,
-              [classes.drawerClose]: !drawerOpen
-            })
-          }}
-          variant="permanent"
-          open={drawerOpen}
-        >
-          {drawer}
-        </Drawer>
+      <nav area-label="mailbox filders" className={classes.drawer}>
+        <Hidden smUp implementation="js">
+          <Drawer
+            variant="temporary"
+            open={drawerOpen}
+            onClose={handleDrawerClose}
+            classes={{
+              paper: classes.drawerPaper
+            }}
+            ModalProps={{
+              keepMounted: true // Better open performance on mobile.
+            }}
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
+        <Hidden xsDown implementation="js">
+          <Drawer
+            classes={{
+              paper: classes.drawerPaper
+            }}
+            variant="permanent"
+            open
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
       </nav>
       <main className={classes.content}>{props.children ? props.children : null}</main>
     </div>

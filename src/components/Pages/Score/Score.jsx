@@ -78,7 +78,6 @@ export const Score = () => {
       </Typography>
       <MaterialTable
         title="Activities"
-        style={{ width: "600px" }}
         columns={columns}
         data={data}
         actions={actions}
