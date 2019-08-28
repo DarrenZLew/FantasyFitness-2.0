@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import MUITable from "./MUITable";
+import MUITable from "../../MUITable";
 
 export const Bonuses = () => {
   const [data, updateData] = useState({

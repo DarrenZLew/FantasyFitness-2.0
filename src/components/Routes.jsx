@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import { MenuRouter } from "./menu/MenuRouter";
-import { Login, Signup, Score, ForgotPassword, LeagueCreate } from "./pages";
+import { Login, Signup, Score, ScoreSheet, ForgotPassword, LeagueCreate } from "./pages";
 
 const Routes = ({ auth }) => {
   const pageRender = (props, Page) => {
@@ -22,9 +22,8 @@ const Routes = ({ auth }) => {
       <Route path="/signup" exact render={props => pageRender(props, Signup)} />
       <Route path="/score" exact render={props => pageRender(props, Score)} />
       <Route path="/league" exact render={props => pageRender(props, LeagueCreate)} />
-      {/* <Route path="/scoresheet" exact render={PageRender} />
-    <Route path="/league" exact render={PageRender} />
-    <Route path="/profile" exact render={PageRender} />
+      <Route path="/scoresheet" exact render={props => pageRender(props, ScoreSheet)} />
+      {/* <Route path="/profile" exact render={PageRender} />
     <Route path="/logout" exact render={PageRender} /> */}
     </Switch>
   );

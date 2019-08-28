@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import MUITable from "./MUITable";
+import MUITable from "../../MUITable";
 
 export const Activities = () => {
   const [data, updatedata] = useState([

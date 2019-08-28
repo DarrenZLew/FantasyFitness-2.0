@@ -1,7 +1,7 @@
 import React from "react";
 import MaterialTable from "material-table";
 
-const MUITable = ({ columns, data, actions, options, title, editable }) => {
+const MUITable = ({ columns, data, actions, options, title, editable, detailPanel }) => {
   const defaultOptions = {
     actionsColumnIndex: -1,
     paging: false,
@@ -20,6 +20,7 @@ const MUITable = ({ columns, data, actions, options, title, editable }) => {
       actions={actions}
       options={defaultOptions}
       editable={editable}
+      detailPanel={detailPanel}
     />
   );
 };
