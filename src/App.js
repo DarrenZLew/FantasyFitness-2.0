@@ -10,7 +10,7 @@ import Routes from "./components/Routes";
 
 const theme = createMuiTheme({
   palette: {
-    type: "dark",
+    type: "light",
     primary: {
       main: "#1e88e5"
     },

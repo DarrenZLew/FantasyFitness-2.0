@@ -10,14 +10,9 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import LeagueInfo from "./LeagueInfo";
 import ActivityPage from "./ActivityPage";
 import BonusPage from "./BonusPage";
+import { PaddingContainer, TopContainer } from "../../layout";
 
 const useStyles = makeStyles(theme => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center"
-  },
   form: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1)
@@ -61,8 +56,9 @@ export const LeagueCreate = () => {
   };
 
   return (
-    <Container component="main" maxWidth="md">
-      <div className={classes.paper}>
+    // <Container component="main" maxWidth="md">
+    <TopContainer>
+      <PaddingContainer>
         <Typography component="h1" variant="h5">
           Create New League
         </Typography>
@@ -92,7 +88,8 @@ export const LeagueCreate = () => {
             </ButtonGroup>
           </Grid>
         </form>
-      </div>
-    </Container>
+      </PaddingContainer>
+    </TopContainer>
+    // </Container>
   );
 };

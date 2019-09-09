@@ -26,13 +26,17 @@ const useStyles = makeStyles(theme => ({
     marginLeft: drawerWidth,
     [theme.breakpoints.up("sm")]: {
       width: `calc(100% - ${drawerWidth}px)`
-    }
+    },
+    minHeight: "64px"
   },
   menuButton: {
     marginRight: theme.spacing(1),
     [theme.breakpoints.up("sm")]: {
       display: "none"
     }
+  },
+  appBarToolBar: {
+    minHeight: "64px"
   },
   toolbar: {
     display: "flex",
@@ -45,8 +49,8 @@ const useStyles = makeStyles(theme => ({
     width: drawerWidth
   },
   content: {
-    flexGrow: 1,
-    padding: theme.spacing(3)
+    flexGrow: 1
+    // padding: theme.spacing(3)
   }
 }));
 
@@ -79,7 +83,7 @@ export const MenuRouter = props => {
   return (
     <div className={classes.root}>
       <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
+        <Toolbar className={classes.appBarToolBar}>
           <IconButton
             edge="start"
             className={clsx(classes.menuButton, {
@@ -96,7 +100,7 @@ export const MenuRouter = props => {
           </Typography>
         </Toolbar>
       </AppBar>
-      <nav area-label="mailbox filders" className={classes.drawer}>
+      <nav area-label="mailbox filters" className={classes.drawer}>
         <Hidden smUp implementation="js">
           <Drawer
             variant="temporary"
