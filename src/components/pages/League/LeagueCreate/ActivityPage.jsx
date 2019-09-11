@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Fab from "@material-ui/core/Fab";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import LeagueForm from "../../forms/LeagueForm";
+import CreateForm from "../../../forms/CreateForm";
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -42,7 +42,7 @@ const ActivityPage = ({ activityState, updateActivityState }) => {
   const addItemText = "Add new activity";
 
   return (
-    <LeagueForm formHeader={formHeader} addItem={addActivity} addItemText={addItemText}>
+    <CreateForm formHeader={formHeader} addItem={addActivity} addItemText={addItemText}>
       {activityState.length > 0 && (
         <Grid container spacing={1}>
           {activityState.map((activity, index) => {
@@ -108,7 +108,7 @@ const ActivityPage = ({ activityState, updateActivityState }) => {
           })}
         </Grid>
       )}
-    </LeagueForm>
+    </CreateForm>
   );
 };
 

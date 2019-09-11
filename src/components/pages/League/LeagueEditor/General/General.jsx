@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { Grid } from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
 import GeneralProfile from "./GeneralProfile";
 import GeneralAvatar from "./GeneralAvatar";
 

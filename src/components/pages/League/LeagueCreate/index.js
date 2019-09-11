@@ -1,30 +1,18 @@
 import React, { useState } from "react";
-import Button from "@material-ui/core/Button";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import LeagueInfo from "./LeagueInfo";
 import ActivityPage from "./ActivityPage";
 import BonusPage from "./BonusPage";
-import { PaddingContainer, TopContainer } from "../../layout";
+import { PaddingContainer, TopContainer, ButtonTwoGroup } from "../../../layout";
 
 const useStyles = makeStyles(theme => ({
   form: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1)
   },
-  button: {
-    margin: theme.spacing(2, 1, 2)
-  },
   hide: {
     visibility: "hidden"
-  },
-  icon: {
-    fontSize: 25
   }
 }));
 
@@ -33,9 +21,7 @@ export const LeagueCreate = () => {
   const [formPage, updateFormPage] = useState(0);
   const [leagueState, updateLeagueState] = useState({
     name: "",
-    type: "",
-    weeks: "",
-    "start-date": null
+    type: ""
   });
   const [activityState, updateActivityState] = useState([]);
   const [bonusState, updateBonusState] = useState([]);
@@ -56,7 +42,6 @@ export const LeagueCreate = () => {
   };
 
   return (
-    // <Container component="main" maxWidth="md">
     <TopContainer>
       <PaddingContainer>
         <Typography component="h1" variant="h5">
@@ -64,32 +49,11 @@ export const LeagueCreate = () => {
         </Typography>
         <form className={classes.form} noValidate>
           {pages[formPage]}
-          <Grid>
-            <ButtonGroup fullWidth>
-              <Button
-                variant="contained"
-                color="primary"
-                disabled={firstPage}
-                className={classes.button}
-                onClick={previousPage}
-              >
-                <ChevronLeftIcon className={classes.icon} />
-                Previous
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                onClick={lastPage ? () => {} : nextPage}
-              >
-                {lastPage ? <span>Submit</span> : <span>Next</span>}
-                <ChevronRightIcon className={classes.icon} />
-              </Button>
-            </ButtonGroup>
-          </Grid>
+          <ButtonTwoGroup 
+            leftBtn={{ disabled:firstPage, onClick: previousPage, text: "Previous" }} 
+            rightBtn={{ onClick: lastPage ? () => {} : nextPage, text: lastPage ? <span>Create League</span> : <span>Next</span>}} />
         </form>
       </PaddingContainer>
     </TopContainer>
-    // </Container>
   );
 };

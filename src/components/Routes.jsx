@@ -8,7 +8,8 @@ import {
   ScoreSheet,
   ForgotPassword,
   LeagueCreate,
-  LeagueEditor
+  LeagueEditor,
+  SeasonCreate
 } from "./pages";
 
 const Routes = ({ auth }) => {
@@ -29,8 +30,9 @@ const Routes = ({ auth }) => {
       <Route path="/login/identity" exact render={props => pageRender(props, ForgotPassword)} />
       <Route path="/signup" exact render={props => pageRender(props, Signup)} />
       <Route path="/score" exact render={props => pageRender(props, Score)} />
-      <Route path="/league/create" exact render={props => pageRender(props, LeagueCreate)} />
-      <Route path="/league/1/edit" exact render={props => pageRender(props, LeagueEditor)} />
+      <Route path="/league" exact render={props => pageRender(props, LeagueCreate)} />
+      <Route path="/league/:leagueId" exact render={props => pageRender(props, LeagueEditor)} />
+      <Route path="/league/:leagueId/season" exact render={props => pageRender(props, SeasonCreate)} />      
       <Route path="/scoresheet" exact render={props => pageRender(props, ScoreSheet)} />
       {/* <Route path="/profile" exact render={PageRender} />
     <Route path="/logout" exact render={PageRender} /> */}

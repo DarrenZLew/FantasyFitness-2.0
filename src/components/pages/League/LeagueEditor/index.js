@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { AppBar, Tabs, Tab } from "@material-ui/core";
 import AddMember from "./AddMember";
 import General from "./General/General";
-import { PaddingContainer, TopContainer } from "../../layout";
+import Season from "./Season";
+import { PaddingContainer, TopContainer } from "../../../layout";
 
 const Content = ({ pageID }) => {
-  const pages = [<General />, null, <AddMember />];
+  const pages = [<General />, null, <AddMember />, <Season />];
   return pages[pageID];
 };
 
@@ -15,7 +16,7 @@ const LeagueEditor = () => {
     setPageIndex(newIndex);
   };
 
-  const pageTabs = ["General", "Activities/Bonuses", "Members"];
+  const pageTabs = ["General", "Activities", "Members", "Seasons"];
 
   return (
     <TopContainer>

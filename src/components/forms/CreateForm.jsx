@@ -1,10 +1,9 @@
 import React, { Fragment } from "react";
 import Grid from "@material-ui/core/Grid";
-
 import AddItem from "./AddItem";
 import FormHeader from "./FormHeader";
 
-const LeagueForm = ({ formHeader, children, addItem, addItemText }) => {
+const CreateForm = ({ formHeader, children, addItem, addItemText }) => {
   return (
     <Fragment>
       {formHeader && <FormHeader variant="subtitle1">{formHeader}</FormHeader>}
@@ -14,4 +13,4 @@ const LeagueForm = ({ formHeader, children, addItem, addItemText }) => {
   );
 };
 
-export default LeagueForm;
+export default CreateForm;

@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Fab from "@material-ui/core/Fab";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import LeagueForm from "../../forms/LeagueForm";
+import CreateForm from "../../../forms/CreateForm";
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -42,7 +42,7 @@ const BonusPage = ({ bonusState, updateBonusState }) => {
   const addItemText = "Add new bonus";
 
   return (
-    <LeagueForm formHeader={formHeader} addItem={addBonus} addItemText={addItemText}>
+    <CreateForm formHeader={formHeader} addItem={addBonus} addItemText={addItemText}>
       {bonusState.length > 0 && (
         <Grid container spacing={1}>
           {bonusState.map((bonus, index) => {
@@ -108,7 +108,7 @@ const BonusPage = ({ bonusState, updateBonusState }) => {
           })}
         </Grid>
       )}
-    </LeagueForm>
+    </CreateForm>
   );
 };
 
