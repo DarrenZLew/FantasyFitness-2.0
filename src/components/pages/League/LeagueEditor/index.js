@@ -5,17 +5,17 @@ import General from "./General/General";
 import Season from "./Season";
 import { PaddingContainer, TopContainer } from "../../../layout";
 
-const Content = ({ pageID }) => {
-  const pages = [<General />, null, <AddMember />, <Season />];
+const Content = ({ pageID, match }) => {
+  const { leagueId } = match.params;
+  const pages = [<General />, null, <AddMember />, <Season leagueId={leagueId} />];
   return pages[pageID];
 };
 
-const LeagueEditor = () => {
+const LeagueEditor = props => {
   const [pageIndex, setPageIndex] = useState(0);
   const handleChangePage = newIndex => e => {
     setPageIndex(newIndex);
   };
-
   const pageTabs = ["General", "Activities", "Members", "Seasons"];
 
   return (
@@ -28,7 +28,7 @@ const LeagueEditor = () => {
         </Tabs>
       </AppBar>
       <PaddingContainer>
-        <Content pageID={pageIndex} />
+        <Content pageID={pageIndex} {...props} />
       </PaddingContainer>
     </TopContainer>
   );

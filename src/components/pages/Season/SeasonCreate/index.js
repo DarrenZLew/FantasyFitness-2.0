@@ -22,9 +22,7 @@ export const SeasonCreate = () => {
     "start-date": null
   });
 
-  const pages = [
-    <SeasonInfo seasonState={seasonState} updateLeagueState={updateSeasonState} />,
-  ];
+  const pages = [<SeasonInfo seasonState={seasonState} updateLeagueState={updateSeasonState} />];
   const lastPage = formPage === pages.length - 1;
   const firstPage = formPage === 0;
   const nextPage = () => {
@@ -43,7 +41,8 @@ export const SeasonCreate = () => {
         </Typography>
         <form className={classes.form} noValidate>
           {pages[formPage]}
-          <ButtonTwoGroup leftBtn={{
+          <ButtonTwoGroup
+            leftBtn={{
               disabled: firstPage,
               onClick: previousPage,
               text: "Previous"
@@ -51,7 +50,8 @@ export const SeasonCreate = () => {
             rightBtn={{
               onClick: lastPage ? () => {} : nextPage,
               text: lastPage ? <span>Create Season</span> : <span>Next</span>
-            }} />
+            }}
+          />
         </form>
       </PaddingContainer>
     </TopContainer>

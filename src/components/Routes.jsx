@@ -31,8 +31,16 @@ const Routes = ({ auth }) => {
       <Route path="/signup" exact render={props => pageRender(props, Signup)} />
       <Route path="/score" exact render={props => pageRender(props, Score)} />
       <Route path="/league" exact render={props => pageRender(props, LeagueCreate)} />
-      <Route path="/league/:leagueId" exact render={props => pageRender(props, LeagueEditor)} />
-      <Route path="/league/:leagueId/season" exact render={props => pageRender(props, SeasonCreate)} />      
+      <Route
+        path="/league/:leagueId(\d+)"
+        exact
+        render={props => pageRender(props, LeagueEditor)}
+      />
+      <Route
+        path="/league/:leagueId(\d+)/season"
+        exact
+        render={props => pageRender(props, SeasonCreate)}
+      />
       <Route path="/scoresheet" exact render={props => pageRender(props, ScoreSheet)} />
       {/* <Route path="/profile" exact render={PageRender} />
     <Route path="/logout" exact render={PageRender} /> */}

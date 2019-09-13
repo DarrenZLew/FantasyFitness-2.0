@@ -24,12 +24,10 @@ export const LeagueCreate = () => {
     type: ""
   });
   const [activityState, updateActivityState] = useState([]);
-  const [bonusState, updateBonusState] = useState([]);
 
   const pages = [
     <LeagueInfo leagueState={leagueState} updateLeagueState={updateLeagueState} />,
-    <ActivityPage activityState={activityState} updateActivityState={updateActivityState} />,
-    <BonusPage bonusState={bonusState} updateBonusState={updateBonusState} />
+    <ActivityPage activityState={activityState} updateActivityState={updateActivityState} />
   ];
   const lastPage = formPage === pages.length - 1;
   const firstPage = formPage === 0;
@@ -49,9 +47,13 @@ export const LeagueCreate = () => {
         </Typography>
         <form className={classes.form} noValidate>
           {pages[formPage]}
-          <ButtonTwoGroup 
-            leftBtn={{ disabled:firstPage, onClick: previousPage, text: "Previous" }} 
-            rightBtn={{ onClick: lastPage ? () => {} : nextPage, text: lastPage ? <span>Create League</span> : <span>Next</span>}} />
+          <ButtonTwoGroup
+            leftBtn={{ disabled: firstPage, onClick: previousPage, text: "Previous" }}
+            rightBtn={{
+              onClick: lastPage ? () => {} : nextPage,
+              text: lastPage ? <span>Create League</span> : <span>Next</span>
+            }}
+          />
         </form>
       </PaddingContainer>
     </TopContainer>
