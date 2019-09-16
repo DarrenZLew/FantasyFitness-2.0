@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Fab from "@material-ui/core/Fab";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import LeagueForm from "../../forms/LeagueForm";
+import CreateForm from "../../../forms/CreateForm";
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -27,7 +27,7 @@ const ActivityPage = ({ activityState, updateActivityState }) => {
     updateActivityState([...newActivityState]);
   };
   const addActivity = () => {
-    const newActivity = { name: "", points: "", challenge: false };
+    const newActivity = { name: "", points: "", bonus: false };
     updateActivityState([...activityState, { ...newActivity }]);
   };
 
@@ -42,7 +42,7 @@ const ActivityPage = ({ activityState, updateActivityState }) => {
   const addItemText = "Add new activity";
 
   return (
-    <LeagueForm formHeader={formHeader} addItem={addActivity} addItemText={addItemText}>
+    <CreateForm formHeader={formHeader} addItem={addActivity} addItemText={addItemText}>
       {activityState.length > 0 && (
         <Grid container spacing={1}>
           {activityState.map((activity, index) => {
@@ -77,7 +77,22 @@ const ActivityPage = ({ activityState, updateActivityState }) => {
                     onChange={handleActivityChange("points", index)}
                   />
                 </Grid>
-                <Grid container item md={2} sm={3} xs={6}>
+                <Grid container item md={2} sm={3} xs={6} justify="center">
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        value={activityState[index].bonus}
+                        checked={activityState[index].bonus}
+                        onChange={handleActivityChange("bonus", index)}
+                        color="primary"
+                      />
+                    }
+                    label="Bonus?"
+                    labelPlacement="top"
+                  />
+                </Grid>
+
+                {/* <Grid container item md={2} sm={3} xs={6} justify="center">
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -90,7 +105,7 @@ const ActivityPage = ({ activityState, updateActivityState }) => {
                     label="Challenge?"
                     labelPlacement="top"
                   />
-                </Grid>
+                </Grid> */}
                 <Grid container item md={2} sm={3} xs={6} alignItems="center">
                   <Fab
                     color="primary"
@@ -108,7 +123,7 @@ const ActivityPage = ({ activityState, updateActivityState }) => {
           })}
         </Grid>
       )}
-    </LeagueForm>
+    </CreateForm>
   );
 };
 

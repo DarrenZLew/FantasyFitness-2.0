@@ -2,20 +2,21 @@ import React, { useState } from "react";
 import { AppBar, Tabs, Tab } from "@material-ui/core";
 import AddMember from "./AddMember";
 import General from "./General/General";
-import { PaddingContainer, TopContainer } from "../../layout";
+import Season from "./Season";
+import { PaddingContainer, TopContainer } from "../../../layout";
 
-const Content = ({ pageID }) => {
-  const pages = [<General />, null, <AddMember />];
+const Content = ({ pageID, match }) => {
+  const { leagueId } = match.params;
+  const pages = [<General />, null, <AddMember />, <Season leagueId={leagueId} />];
   return pages[pageID];
 };
 
-const LeagueEditor = () => {
+const LeagueEditor = props => {
   const [pageIndex, setPageIndex] = useState(0);
   const handleChangePage = newIndex => e => {
     setPageIndex(newIndex);
   };
-
-  const pageTabs = ["General", "Activities/Bonuses", "Members"];
+  const pageTabs = ["General", "Activities", "Members", "Seasons"];
 
   return (
     <TopContainer>
@@ -27,7 +28,7 @@ const LeagueEditor = () => {
         </Tabs>
       </AppBar>
       <PaddingContainer>
-        <Content pageID={pageIndex} />
+        <Content pageID={pageIndex} {...props} />
       </PaddingContainer>
     </TopContainer>
   );
