@@ -30,7 +30,7 @@ export function Signup() {
   };
 
   const submitForm = () => {
-    fetch("http://localhost:5000/signup", {
+    fetch("http://localhost:5000/auth/signup", {
       method: "POST",
       body: JSON.stringify(signupState),
       headers: {

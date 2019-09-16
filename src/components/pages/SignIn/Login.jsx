@@ -20,7 +20,7 @@ export const Login = () => {
   const { values, handleInputChange, handleSubmit } = useForm(formState, () => {});
 
   const submitForm = () => {
-    fetch("http://localhost:5000/login", {
+    fetch("http://localhost:5000/auth/login", {
       method: "POST",
       body: JSON.stringify(values),
       headers: {
