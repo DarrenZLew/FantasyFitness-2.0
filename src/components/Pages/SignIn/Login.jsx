@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -8,17 +8,28 @@ import Container from "@material-ui/core/Container";
 import { Link as RouterLink } from "react-router-dom";
 import SignInForm from "../../forms/SignInForm";
 import { TopContainer, PaddingContainer } from "../../layout";
+import { useForm } from "../../../utils";
 
 export const Login = () => {
-  const [loginState, updateLoginState] = useState({
+  const formState = {
     email: "",
     password: "",
     remember: false
-  });
+  };
 
-  const handleChange = name => e => {
-    const newValue = e.target.type === "checkbox" ? e.target.checked : e.target.value;
-    updateLoginState({ ...loginState, [name]: newValue });
+  const { values, handleInputChange, handleSubmit } = useForm(formState, () => {});
+
+  const submitForm = () => {
+    fetch("http://localhost:5000/login", {
+      method: "POST",
+      body: JSON.stringify(values),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(res => res.json())
+      .then(res => console.log("SUCCESS", res))
+      .catch(err => console.log("ERROR:", err));
   };
 
   const BottomForm = () => (
@@ -40,7 +51,12 @@ export const Login = () => {
     <Container component="main" maxWidth="xs">
       <TopContainer spacing={10}>
         <PaddingContainer paper center>
-          <SignInForm formHeader="Sign In" submitText="Sign In" bottomForm={BottomForm}>
+          <SignInForm
+            formHeader="Sign In"
+            submitText="Sign In"
+            bottomForm={BottomForm}
+            submitHandler={handleSubmit(submitForm)}
+          >
             <Grid container spacing={2}>
               <TextField
                 variant="outlined"
@@ -52,8 +68,8 @@ export const Login = () => {
                 name="email"
                 autoComplete="email"
                 autoFocus
-                onChange={handleChange("email")}
-                value={loginState.email}
+                onChange={handleInputChange("email")}
+                value={values.email}
               />
               <TextField
                 variant="outlined"
@@ -65,15 +81,15 @@ export const Login = () => {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                onChange={handleChange("password")}
-                value={loginState.password}
+                onChange={handleInputChange("password")}
+                value={values.password}
               />
               <FormControlLabel
                 control={
                   <Checkbox
-                    value={loginState.remember}
-                    checked={loginState.remember}
-                    onChange={handleChange("remember")}
+                    value={values.remember}
+                    checked={values.remember}
+                    onChange={handleInputChange("remember")}
                     color="primary"
                   />
                 }

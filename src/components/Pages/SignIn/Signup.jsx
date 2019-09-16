@@ -19,8 +19,8 @@ const BottomForm = () => (
 
 export function Signup() {
   const [signupState, updateSignupState] = useState({
-    fname: "",
-    lname: "",
+    first_name: "",
+    last_name: "",
     email: "",
     password: ""
   });
@@ -29,15 +29,33 @@ export function Signup() {
     updateSignupState({ ...signupState, [name]: e.target.value });
   };
 
+  const submitForm = () => {
+    fetch("http://localhost:5000/signup", {
+      method: "POST",
+      body: JSON.stringify(signupState),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(res => res.json())
+      .then(res => console.log("SUCCESS", res))
+      .catch(err => console.log("ERROR:", err));
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <TopContainer spacing={10}>
         <PaddingContainer paper center>
-          <SignInForm formHeader="Sign Up" submitText="Sign Up" bottomForm={BottomForm}>
+          <SignInForm
+            formHeader="Sign Up"
+            submitText="Sign Up"
+            bottomForm={BottomForm}
+            submitHandler={submitForm}
+          >
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  autoComplete="fname"
+                  autoComplete="first_name"
                   name="firstName"
                   variant="outlined"
                   required
@@ -46,8 +64,8 @@ export function Signup() {
                   label="First Name"
                   autoFocus
                   margin="normal"
-                  onChange={handleChange("fname")}
-                  value={signupState.fname}
+                  onChange={handleChange("first_name")}
+                  value={signupState.first_name}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -58,10 +76,10 @@ export function Signup() {
                   id="lastName"
                   label="Last Name"
                   name="lastName"
-                  autoComplete="lname"
+                  autoComplete="last_name"
                   margin="normal"
-                  onChange={handleChange("lname")}
-                  value={signupState.lname}
+                  onChange={handleChange("last_name")}
+                  value={signupState.last_name}
                 />
               </Grid>
               <Grid item xs={12}>

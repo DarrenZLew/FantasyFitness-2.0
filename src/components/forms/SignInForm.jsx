@@ -33,7 +33,14 @@ const SignInForm = ({
           {formHeader}
         </FormHeader>
       )}
-      <form className={classes.form} noValidate>
+      <form
+        className={classes.form}
+        noValidate
+        onSubmit={e => {
+          e.preventDefault();
+          submitHandler();
+        }}
+      >
         {children}
         <Button
           type="submit"
