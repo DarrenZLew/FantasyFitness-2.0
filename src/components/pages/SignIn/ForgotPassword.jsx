@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
@@ -6,6 +6,7 @@ import Container from "@material-ui/core/Container";
 import { Link as RouterLink } from "react-router-dom";
 import SignInForm from "../../forms/SignInForm";
 import { TopContainer, PaddingContainer } from "../../layout";
+import { useForm } from "../../../utils";
 
 const BottomForm = () => (
   <Grid container justify="flex-end">
@@ -18,11 +19,13 @@ const BottomForm = () => (
 );
 
 export const ForgotPassword = () => {
-  const [emailState, updateEmailState] = useState("");
-
-  const handleChange = e => {
-    updateEmailState(e.target.value);
+  const initialState = {
+    email: ""
   };
+
+  // NOTE: Design URL for password reset
+  const url = "";
+  const { values, handleInputChange, handleSubmit } = useForm(initialState, url, () => {});
 
   return (
     <Container component="main" maxWidth="xs">
@@ -32,6 +35,7 @@ export const ForgotPassword = () => {
             formHeader="Forget Your Password?"
             submitText="Reset Password"
             bottomForm={BottomForm}
+            submitHandler={handleSubmit}
           >
             <TextField
               variant="outlined"
@@ -43,8 +47,8 @@ export const ForgotPassword = () => {
               name="email"
               autoComplete="email"
               autoFocus
-              onChange={handleChange}
-              value={emailState}
+              onChange={handleInputChange}
+              value={values.email}
             />
           </SignInForm>
         </PaddingContainer>

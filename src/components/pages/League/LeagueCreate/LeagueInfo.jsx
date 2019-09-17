@@ -1,20 +1,34 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
-import CreateForm from "../../../forms/CreateForm";
+import EditForm from "../../../forms/EditForm";
+import { ButtonTwoGroup } from "../../../layout";
+import { Link } from "react-router-dom";
 
-const LeagueInfo = ({ leagueState, updateLeagueState }) => {
-  const handleChange = e => {
-    let newValue = e.target.value;
-    if (e.target.type === "number" && (newValue < 0 || Number.isInteger(newValue))) {
-      newValue = 0;
-    }
-    updateLeagueState({ ...leagueState, [e.target.name]: [newValue] });
+const LeagueInfo = ({ values, handleInputChange, handleSubmit }) => {
+  const formHeader = "Fill in information about your league";
+  const disabledSubmit = Object.values(values).some(item => !item);
+  const ButtonComponent = () => {
+    return (
+      <ButtonTwoGroup
+        leftBtn={{
+          component: Link,
+          to: {
+            pathname: "/league",
+            type: "home"
+          },
+          content: "Go Back"
+        }}
+        rightBtn={{
+          type: "submit",
+          content: "Create League",
+          disabled: disabledSubmit
+        }}
+      />
+    );
   };
 
-  const formHeader = "Fill in information about your league";
-
   return (
-    <CreateForm formHeader={formHeader}>
+    <EditForm formHeader={formHeader} ButtonComponent={ButtonComponent} handleSubmit={handleSubmit}>
       <TextField
         variant="outlined"
         margin="normal"
@@ -25,8 +39,8 @@ const LeagueInfo = ({ leagueState, updateLeagueState }) => {
         name="name"
         autoComplete="name"
         autoFocus
-        value={leagueState.name}
-        onChange={handleChange}
+        value={values.name}
+        onChange={handleInputChange("name")}
       />
       <TextField
         variant="outlined"
@@ -38,10 +52,10 @@ const LeagueInfo = ({ leagueState, updateLeagueState }) => {
         id="type"
         placeholder="Ex: Fitness"
         autoComplete="type"
-        value={leagueState.type}
-        onChange={handleChange}
+        value={values.type}
+        onChange={handleInputChange("type")}
       />
-    </CreateForm>
+    </EditForm>
   );
 };
 

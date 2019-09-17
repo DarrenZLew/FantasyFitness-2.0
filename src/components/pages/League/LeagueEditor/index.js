@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { AppBar, Tabs, Tab } from "@material-ui/core";
 import AddMember from "./AddMember";
+import Activities from "./Activities";
 import General from "./General/General";
 import Season from "./Season";
 import { PaddingContainer, TopContainer } from "../../../layout";
 
 const Content = ({ pageID, match }) => {
   const { leagueId } = match.params;
-  const pages = [<General />, null, <AddMember />, <Season leagueId={leagueId} />];
+  const pages = [<General />, <Activities />, <AddMember />, <Season leagueId={leagueId} />];
   return pages[pageID];
 };
 

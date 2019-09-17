@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import { Link as RouterLink } from "react-router-dom";
 import SignInForm from "../../forms/SignInForm";
+import { useForm } from "../../../utils";
 import { TopContainer, PaddingContainer } from "../../layout";
 
 const BottomForm = () => (
@@ -18,29 +19,15 @@ const BottomForm = () => (
 );
 
 export function Signup() {
-  const [signupState, updateSignupState] = useState({
+  const initialState = {
     first_name: "",
     last_name: "",
     email: "",
     password: ""
-  });
-
-  const handleChange = name => e => {
-    updateSignupState({ ...signupState, [name]: e.target.value });
   };
 
-  const submitForm = () => {
-    fetch("http://localhost:5000/auth/signup", {
-      method: "POST",
-      body: JSON.stringify(signupState),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then(res => res.json())
-      .then(res => console.log("SUCCESS", res))
-      .catch(err => console.log("ERROR:", err));
-  };
+  const url = "http://localhost:5000/auth/signup";
+  const { values, handleInputChange, handleSubmit } = useForm(initialState, url, () => {});
 
   return (
     <Container component="main" maxWidth="xs">
@@ -50,7 +37,7 @@ export function Signup() {
             formHeader="Sign Up"
             submitText="Sign Up"
             bottomForm={BottomForm}
-            submitHandler={submitForm}
+            submitHandler={handleSubmit}
           >
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -64,8 +51,8 @@ export function Signup() {
                   label="First Name"
                   autoFocus
                   margin="normal"
-                  onChange={handleChange("first_name")}
-                  value={signupState.first_name}
+                  onChange={handleInputChange("first_name")}
+                  value={values.first_name}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -78,8 +65,8 @@ export function Signup() {
                   name="lastName"
                   autoComplete="last_name"
                   margin="normal"
-                  onChange={handleChange("last_name")}
-                  value={signupState.last_name}
+                  onChange={handleInputChange("last_name")}
+                  value={values.last_name}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -91,8 +78,8 @@ export function Signup() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  onChange={handleChange("email")}
-                  value={signupState.email}
+                  onChange={handleInputChange("email")}
+                  value={values.email}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -105,8 +92,8 @@ export function Signup() {
                   type="password"
                   id="password"
                   autoComplete="current-password"
-                  onChange={handleChange("password")}
-                  value={signupState.password}
+                  onChange={handleInputChange("password")}
+                  value={values.password}
                 />
               </Grid>
             </Grid>

@@ -1,7 +1,7 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 import { KeyboardDatePicker } from "@material-ui/pickers";
-import CreateForm from "../../../forms/CreateForm";
+import EditForm from "../../../forms/EditForm";
 
 const SeasonInfo = ({ seasonState, updateSeasonState }) => {
   const handleChange = e => {
@@ -19,7 +19,7 @@ const SeasonInfo = ({ seasonState, updateSeasonState }) => {
   const formHeader = "Fill in information about your season";
 
   return (
-    <CreateForm formHeader={formHeader}>
+    <EditForm formHeader={formHeader}>
       <TextField
         variant="outlined"
         margin="normal"
@@ -52,7 +52,7 @@ const SeasonInfo = ({ seasonState, updateSeasonState }) => {
         value={seasonState["start-date"]}
         onChange={date => handleDateChange("start-date", date)}
       />
-    </CreateForm>
+    </EditForm>
   );
 };
 

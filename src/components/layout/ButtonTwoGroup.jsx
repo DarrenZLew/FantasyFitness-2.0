@@ -17,31 +17,20 @@ const useStyles = makeStyles(theme => ({
 
 const ButtonTwoGroup = ({ leftBtn, rightBtn }) => {
   const classes = useStyles();
-  return(
-  <Grid>
-  <ButtonGroup fullWidth>
-    <Button
-      variant="contained"
-      color="primary"
-      disabled={leftBtn.disabled}
-      className={classes.button}
-      onClick={leftBtn.onClick}
-    >
-      <ChevronLeftIcon className={classes.icon} />
-      {leftBtn.text}
-    </Button>
-    <Button
-      variant="contained"
-      disabled={rightBtn.disabled}
-      color="primary"
-      className={classes.button}
-      onClick={rightBtn.onClick}
-    >
-      {rightBtn.text}
-      <ChevronRightIcon className={classes.icon} />
-    </Button>
-  </ButtonGroup>
-</Grid>
-)}
+  return (
+    <Grid>
+      <ButtonGroup fullWidth>
+        <Button variant="contained" color="primary" {...leftBtn} className={classes.button}>
+          <ChevronLeftIcon className={classes.icon} />
+          {leftBtn.content}
+        </Button>
+        <Button variant="contained" color="primary" className={classes.button} {...rightBtn}>
+          {rightBtn.content}
+          <ChevronRightIcon className={classes.icon} />
+        </Button>
+      </ButtonGroup>
+    </Grid>
+  );
+};
 
-export default ButtonTwoGroup
+export default ButtonTwoGroup;

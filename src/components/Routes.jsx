@@ -7,8 +7,8 @@ import {
   Score,
   ScoreSheet,
   ForgotPassword,
-  LeagueCreate,
   LeagueEditor,
+  LeaguePageRender,
   SeasonCreate
 } from "./pages";
 
@@ -30,7 +30,7 @@ const Routes = ({ auth }) => {
       <Route path="/login/identity" exact render={props => pageRender(props, ForgotPassword)} />
       <Route path="/signup" exact render={props => pageRender(props, Signup)} />
       <Route path="/score" exact render={props => pageRender(props, Score)} />
-      <Route path="/league" exact render={props => pageRender(props, LeagueCreate)} />
+      <Route path="/league" exact render={props => pageRender(props, LeaguePageRender)} />
       <Route
         path="/league/:leagueId(\d+)"
         exact

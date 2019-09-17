@@ -10,42 +10,30 @@ import SignInForm from "../../forms/SignInForm";
 import { TopContainer, PaddingContainer } from "../../layout";
 import { useForm } from "../../../utils";
 
+const BottomForm = () => (
+  <Grid container>
+    <Grid item xs>
+      <Link component={RouterLink} to="/login/identity">
+        Forgot password?
+      </Link>
+    </Grid>
+    <Grid item>
+      <Link component={RouterLink} to="/signup">
+        Don't have an account? Sign up
+      </Link>
+    </Grid>
+  </Grid>
+);
+
 export const Login = () => {
-  const formState = {
+  const initialState = {
     email: "",
     password: "",
     remember: false
   };
 
-  const { values, handleInputChange, handleSubmit } = useForm(formState, () => {});
-
-  const submitForm = () => {
-    fetch("http://localhost:5000/auth/login", {
-      method: "POST",
-      body: JSON.stringify(values),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then(res => res.json())
-      .then(res => console.log("SUCCESS", res))
-      .catch(err => console.log("ERROR:", err));
-  };
-
-  const BottomForm = () => (
-    <Grid container>
-      <Grid item xs>
-        <Link component={RouterLink} to="/login/identity">
-          Forgot password?
-        </Link>
-      </Grid>
-      <Grid item>
-        <Link component={RouterLink} to="/signup">
-          Don't have an account? Sign up
-        </Link>
-      </Grid>
-    </Grid>
-  );
+  const url = "http://localhost:5000/auth/login";
+  const { values, handleInputChange, handleSubmit } = useForm(initialState, url, () => {});
 
   return (
     <Container component="main" maxWidth="xs">
@@ -55,7 +43,7 @@ export const Login = () => {
             formHeader="Sign In"
             submitText="Sign In"
             bottomForm={BottomForm}
-            submitHandler={handleSubmit(submitForm)}
+            submitHandler={handleSubmit}
           >
             <Grid container spacing={2}>
               <TextField
