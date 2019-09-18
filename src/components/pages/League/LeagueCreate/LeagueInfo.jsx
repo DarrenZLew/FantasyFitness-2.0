@@ -3,8 +3,22 @@ import { Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import { FormContainer } from "../../../forms";
 import { ButtonTwoGroup } from "../../../layout";
+import { useForm } from "../../../../utils";
 
-const LeagueInfo = ({ values, handleInputChange, handleSubmit }) => {
+const LeagueInfo = () => {
+  const initialState = {
+    name: "",
+    type: ""
+  };
+
+  const url = "http://localhost:5000/league";
+  const { values, handleInputChange, handleSubmit, fetchState } = useForm(
+    initialState,
+    url,
+    () => {}
+  );
+  const { loading } = fetchState;
+
   const formHeader = "Fill in information about your league";
   const disabledSubmit = Object.values(values).some(item => !item);
   const ButtonComponent = () => {
@@ -33,7 +47,7 @@ const LeagueInfo = ({ values, handleInputChange, handleSubmit }) => {
   };
 
   return (
-    <FormContainer type="edit" {...formProps} handleSubmit={handleSubmit}>
+    <FormContainer type="edit" {...formProps} loading={loading} handleSubmit={handleSubmit}>
       <TextField
         variant="outlined"
         margin="normal"
