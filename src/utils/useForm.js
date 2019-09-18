@@ -1,12 +1,16 @@
 import { useState } from "react";
 
-export const useForm = (initialValues = {}, url, callback) => {
+export const useForm = (initialValues = {}, url) => {
   const [values, setValues] = useState(initialValues);
+  const [fetchSuccess, setSuccess] = useState(false);
+  const [fetchError, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = event => {
+  const handleSubmit = async event => {
     if (event) event.preventDefault();
     if (url) {
-      fetch(url, {
+      setLoading(true);
+      await fetch(url, {
         method: "POST",
         body: JSON.stringify(values),
         headers: {
@@ -14,10 +18,18 @@ export const useForm = (initialValues = {}, url, callback) => {
         }
       })
         .then(res => res.json())
-        .then(res => console.log("SUCCESS", res))
-        .catch(err => console.log("ERROR:", err));
+        .then(res => {
+          console.log("SUCCESS", res);
+          setSuccess(true);
+        })
+        .catch(err => {
+          console.log("ERROR:", err);
+          setError(true);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     }
-    callback();
   };
 
   const handleChange = (name, id) => e => {
@@ -41,6 +53,11 @@ export const useForm = (initialValues = {}, url, callback) => {
     handleInputChange: (name, id = null) => handleChange(name, id),
     handleSubmit: fetchFn => handleSubmit(fetchFn),
     values,
-    setValues
+    setValues,
+    fetchState: {
+      fetchSuccess,
+      fetchError,
+      loading
+    }
   };
 };
