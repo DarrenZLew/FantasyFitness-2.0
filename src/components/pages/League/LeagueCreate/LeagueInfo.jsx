@@ -1,8 +1,8 @@
 import React from "react";
-import TextField from "@material-ui/core/TextField";
-import EditForm from "../../../forms/EditForm";
-import { ButtonTwoGroup } from "../../../layout";
 import { Link } from "react-router-dom";
+import TextField from "@material-ui/core/TextField";
+import { FormContainer } from "../../../forms";
+import { ButtonTwoGroup } from "../../../layout";
 
 const LeagueInfo = ({ values, handleInputChange, handleSubmit }) => {
   const formHeader = "Fill in information about your league";
@@ -27,8 +27,13 @@ const LeagueInfo = ({ values, handleInputChange, handleSubmit }) => {
     );
   };
 
+  const formProps = {
+    formHeader: formHeader,
+    ButtonComponent: ButtonComponent
+  };
+
   return (
-    <EditForm formHeader={formHeader} ButtonComponent={ButtonComponent} handleSubmit={handleSubmit}>
+    <FormContainer type="edit" {...formProps} handleSubmit={handleSubmit}>
       <TextField
         variant="outlined"
         margin="normal"
@@ -55,7 +60,7 @@ const LeagueInfo = ({ values, handleInputChange, handleSubmit }) => {
         value={values.type}
         onChange={handleInputChange("type")}
       />
-    </EditForm>
+    </FormContainer>
   );
 };
 

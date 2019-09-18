@@ -1,7 +1,7 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 import { KeyboardDatePicker } from "@material-ui/pickers";
-import EditForm from "../../../forms/EditForm";
+import { EditForm } from "../../../forms";
 
 const SeasonInfo = ({ seasonState, updateSeasonState }) => {
   const handleChange = e => {

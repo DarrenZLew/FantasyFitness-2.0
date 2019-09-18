@@ -4,7 +4,7 @@ import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import { Link as RouterLink } from "react-router-dom";
-import SignInForm from "../../forms/SignInForm";
+import { FormContainer } from "../../forms";
 import { TopContainer, PaddingContainer } from "../../layout";
 import { useForm } from "../../../utils";
 
@@ -25,18 +25,25 @@ export const ForgotPassword = () => {
 
   // NOTE: Design URL for password reset
   const url = "";
-  const { values, handleInputChange, handleSubmit } = useForm(initialState, url, () => {});
+  const { values, handleInputChange, handleSubmit, fetchState } = useForm(
+    initialState,
+    url,
+    () => {}
+  );
+
+  const { loading } = fetchState;
+
+  const formProps = {
+    formHeader: "Forget Your Password?",
+    submitText: "Reset Password",
+    bottomForm: BottomForm
+  };
 
   return (
     <Container component="main" maxWidth="xs">
       <TopContainer spacing={10}>
         <PaddingContainer paper center>
-          <SignInForm
-            formHeader="Forget Your Password?"
-            submitText="Reset Password"
-            bottomForm={BottomForm}
-            submitHandler={handleSubmit}
-          >
+          <FormContainer type="signin" handleSubmit={handleSubmit} loading={loading} {...formProps}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -47,10 +54,10 @@ export const ForgotPassword = () => {
               name="email"
               autoComplete="email"
               autoFocus
-              onChange={handleInputChange}
+              onChange={handleInputChange("email")}
               value={values.email}
             />
-          </SignInForm>
+          </FormContainer>
         </PaddingContainer>
       </TopContainer>
     </Container>

@@ -4,7 +4,7 @@ import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import { Link as RouterLink } from "react-router-dom";
-import SignInForm from "../../forms/SignInForm";
+import { FormContainer } from "../../forms";
 import { useForm } from "../../../utils";
 import { TopContainer, PaddingContainer } from "../../layout";
 
@@ -27,18 +27,24 @@ export function Signup() {
   };
 
   const url = "http://localhost:5000/auth/signup";
-  const { values, handleInputChange, handleSubmit } = useForm(initialState, url, () => {});
+  const { values, handleInputChange, handleSubmit, fetchState } = useForm(
+    initialState,
+    url,
+    () => {}
+  );
+  const { loading } = fetchState;
+
+  const formProps = {
+    formHeader: "Sign Up",
+    submitText: "Sign Up",
+    bottomForm: BottomForm
+  };
 
   return (
     <Container component="main" maxWidth="xs">
       <TopContainer spacing={10}>
         <PaddingContainer paper center>
-          <SignInForm
-            formHeader="Sign Up"
-            submitText="Sign Up"
-            bottomForm={BottomForm}
-            submitHandler={handleSubmit}
-          >
+          <FormContainer type="signin" handleSubmit={handleSubmit} loading={loading} {...formProps}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -97,7 +103,7 @@ export function Signup() {
                 />
               </Grid>
             </Grid>
-          </SignInForm>
+          </FormContainer>
         </PaddingContainer>
       </TopContainer>
     </Container>

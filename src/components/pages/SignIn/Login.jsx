@@ -6,7 +6,7 @@ import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import { Link as RouterLink } from "react-router-dom";
-import SignInForm from "../../forms/SignInForm";
+import { FormContainer } from "../../forms";
 import { TopContainer, PaddingContainer, LoadingContainer } from "../../layout";
 import { useForm } from "../../../utils";
 
@@ -36,58 +36,57 @@ export const Login = () => {
   const { values, handleInputChange, handleSubmit, fetchState } = useForm(initialState, url);
   const { loading } = fetchState;
 
+  const formProps = {
+    formHeader: "Sign In",
+    submitText: "Sign In",
+    bottomForm: BottomForm
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <TopContainer spacing={10}>
         <PaddingContainer paper center>
-          <LoadingContainer loading={loading}>
-            <SignInForm
-              formHeader="Sign In"
-              submitText="Sign In"
-              bottomForm={BottomForm}
-              submitHandler={handleSubmit}
-            >
-              <Grid container spacing={2}>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
-                  onChange={handleInputChange("email")}
-                  value={values.email}
-                />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  onChange={handleInputChange("password")}
-                  value={values.password}
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      value={values.remember}
-                      checked={values.remember}
-                      onChange={handleInputChange("remember")}
-                      color="primary"
-                    />
-                  }
-                  label="Remember me"
-                />
-              </Grid>
-            </SignInForm>
-          </LoadingContainer>
+          <FormContainer type="signin" handleSubmit={handleSubmit} loading={loading} {...formProps}>
+            <Grid container spacing={2}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                onChange={handleInputChange("email")}
+                value={values.email}
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onChange={handleInputChange("password")}
+                value={values.password}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    value={values.remember}
+                    checked={values.remember}
+                    onChange={handleInputChange("remember")}
+                    color="primary"
+                  />
+                }
+                label="Remember me"
+              />
+            </Grid>
+          </FormContainer>
         </PaddingContainer>
       </TopContainer>
     </Container>

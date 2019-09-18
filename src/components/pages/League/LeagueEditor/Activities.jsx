@@ -1,13 +1,13 @@
 import React, { Fragment } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import DeleteIcon from "@material-ui/icons/Delete";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
 import Fab from "@material-ui/core/Fab";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
-import EditForm from "../../../forms/EditForm";
+import { EditForm } from "../../../forms";
 import { useForm } from "../../../../utils";
 import { CardContainer } from "../../../layout";
 
