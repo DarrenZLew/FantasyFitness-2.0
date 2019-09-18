@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import SeasonInfo from "./SeasonInfo";
-import { PaddingContainer, TopContainer, ButtonTwoGroup } from "../../../layout";
+import { PaddingContainer, TopContainer, ButtonTwoGroup } from "../../../common";
 
 const useStyles = makeStyles(theme => ({
   form: {

@@ -1,5 +1,5 @@
 import React from "react";
-import { CreateNewGroup, TopContainer, PaddingContainer } from "../../layout";
+import { CreateNewGroup, TopContainer, PaddingContainer } from "../../common";
 
 const LeagueHomePage = () => {
   const url = {

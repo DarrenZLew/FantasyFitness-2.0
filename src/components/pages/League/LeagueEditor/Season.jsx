@@ -1,5 +1,5 @@
 import React from "react";
-import { CreateNewGroup } from "../../../layout";
+import { CreateNewGroup } from "../../../common";
 
 const Season = props => {
   const { leagueId } = props;

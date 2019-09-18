@@ -6,7 +6,7 @@ import Container from "@material-ui/core/Container";
 import { Link as RouterLink } from "react-router-dom";
 import { FormContainer } from "../../forms";
 import { useForm } from "../../../utils";
-import { TopContainer, PaddingContainer } from "../../layout";
+import { TopContainer, PaddingContainer } from "../../common";
 
 const BottomForm = () => (
   <Grid container justify="flex-end">

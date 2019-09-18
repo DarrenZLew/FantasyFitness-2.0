@@ -1,7 +1,7 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import LeagueInfo from "./LeagueInfo";
-import { PaddingContainer, TopContainer } from "../../../layout";
+import { PaddingContainer, TopContainer } from "../../../common";
 
 export const LeagueCreate = () => {
   return (

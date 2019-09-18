@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { SignInForm, EditForm } from ".";
-import { LoadingContainer } from "../layout";
+import { LoadingContainer } from "../common";
 
 const useStyles = makeStyles(theme => ({
   form: {

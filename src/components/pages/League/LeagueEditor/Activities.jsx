@@ -9,7 +9,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import { EditForm } from "../../../forms";
 import { useForm } from "../../../../utils";
-import { CardContainer } from "../../../layout";
+import { CardContainer } from "../../../common";
 
 const useStyles = makeStyles(theme => ({
   icon: {

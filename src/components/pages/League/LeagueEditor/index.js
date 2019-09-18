@@ -4,7 +4,7 @@ import AddMember from "./AddMember";
 import Activities from "./Activities";
 import General from "./General/General";
 import Season from "./Season";
-import { PaddingContainer, TopContainer } from "../../../layout";
+import { PaddingContainer, TopContainer } from "../../../common";
 
 const Content = ({ pageID, match }) => {
   const { leagueId } = match.params;

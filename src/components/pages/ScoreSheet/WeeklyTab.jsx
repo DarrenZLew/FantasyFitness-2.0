@@ -78,7 +78,7 @@ export default function WeeklyTab(props) {
       </AppBar>
       <SwipeableViews index={value} onChangeIndex={handleChangeIndex}>
         {dailyScoreSheets.map((scoreSheet, index) => (
-          <TabPanel value={value} index={index}>
+          <TabPanel value={value} index={index} key={index}>
             <DailyScoreSheet title={`Score Sheet ${index + 1}`} />
           </TabPanel>
         ))}

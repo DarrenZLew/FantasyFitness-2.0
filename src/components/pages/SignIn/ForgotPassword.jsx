@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import { Link as RouterLink } from "react-router-dom";
 import { FormContainer } from "../../forms";
-import { TopContainer, PaddingContainer } from "../../layout";
+import { TopContainer, PaddingContainer } from "../../common";
 import { useForm } from "../../../utils";
 
 const BottomForm = () => (

@@ -54,27 +54,27 @@ export const DailyScoreSheet = props => {
       data={data}
       actions={actions}
       options={options}
-      detailPanel={[
-        {
-          icon: "star",
-          openIcon: "star_border",
-          tooltip: "Show Match Up",
-          render: rowData => {
-            return (
-              <div
-                style={{
-                  fontSize: 100,
-                  textAlign: "center",
-                  color: "white",
-                  backgroundColor: "#E53935"
-                }}
-              >
-                Display Head To Head Component
-              </div>
-            );
-          }
-        }
-      ]}
+      // detailPanel={[
+      //   {
+      //     icon: "star",
+      //     openIcon: "star_border",
+      //     tooltip: "Show Match Up",
+      //     render: rowData => {
+      //       return (
+      //         <div
+      //           style={{
+      //             fontSize: 100,
+      //             textAlign: "center",
+      //             color: "white",
+      //             backgroundColor: "#E53935"
+      //           }}
+      //         >
+      //           Display Head To Head Component
+      //         </div>
+      //       );
+      //     }
+      //   }
+      // ]}
     />
   );
 };

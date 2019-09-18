@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import { FormContainer } from "../../../forms";
-import { ButtonTwoGroup } from "../../../layout";
+import { ButtonTwoGroup } from "../../../common";
 import { useForm } from "../../../../utils";
 
 const LeagueInfo = () => {
