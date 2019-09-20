@@ -54,7 +54,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const MenuRouter = props => {
+export const MenuContainer = ({ children, hasMenu }) => {
   const classes = useStyles();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -79,6 +79,10 @@ export const MenuRouter = props => {
       <MenuRouteList listItems={routeItems.account} />
     </div>
   );
+
+  if (!hasMenu) {
+    return children;
+  }
 
   return (
     <div className={classes.root}>
@@ -128,9 +132,9 @@ export const MenuRouter = props => {
           </Drawer>
         </Hidden>
       </nav>
-      <main className={classes.content}>{props.children ? props.children : null}</main>
+      <main className={classes.content}>{children ? children : null}</main>
     </div>
   );
 };
 
-export default MenuRouter;
+export default MenuContainer;

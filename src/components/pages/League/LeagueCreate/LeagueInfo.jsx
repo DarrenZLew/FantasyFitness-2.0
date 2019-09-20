@@ -12,12 +12,11 @@ const LeagueInfo = () => {
   };
 
   const url = "http://localhost:5000/league";
-  const { values, handleInputChange, handleSubmit, fetchState } = useForm(
+  const { values, handleInputChange, handleSubmit, fetchResponse, loading } = useForm(
     initialState,
     url,
     () => {}
   );
-  const { loading } = fetchState;
 
   const formHeader = "Fill in information about your league";
   const disabledSubmit = Object.values(values).some(item => !item);

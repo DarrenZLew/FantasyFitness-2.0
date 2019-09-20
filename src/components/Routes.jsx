@@ -1,50 +1,35 @@
 import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 import { Route, Switch } from "react-router-dom";
-import { MenuRouter } from "./menu/MenuRouter";
-import {
-  Login,
-  Signup,
-  Score,
-  ScoreSheet,
-  ForgotPassword,
-  LeagueEditor,
-  LeaguePageRender,
-  SeasonCreate
-} from "./pages";
+import { ROUTES_CONFIG } from "../constants";
+import { MenuContainer } from "./menu/MenuContainer";
+import { AuthContainer } from "../components/common";
 
-const Routes = ({ auth }) => {
-  const pageRender = (props, Page) => {
-    return !auth ? (
-      <MenuRouter>
-        <Page {...props} />
-      </MenuRouter>
-    ) : (
-      <Page {...props} />
+// Remove auth with actual auth from auth context
+const Routes = () => {
+  const pageRender = (props, { Page, hasMenu, requiresAuth }) => {
+    return (
+      <AuthContainer requiresAuth={requiresAuth}>
+        <MenuContainer hasMenu={hasMenu}>
+          <Page {...props} />
+        </MenuContainer>
+      </AuthContainer>
     );
   };
 
   return (
-    <Switch>
-      <Route path="/" exact render={props => pageRender(props, Login)} />
-      <Route path="/login" exact render={props => pageRender(props, Login)} />
-      <Route path="/login/identity" exact render={props => pageRender(props, ForgotPassword)} />
-      <Route path="/signup" exact render={props => pageRender(props, Signup)} />
-      <Route path="/score" exact render={props => pageRender(props, Score)} />
-      <Route path="/league" exact render={props => pageRender(props, LeaguePageRender)} />
-      <Route
-        path="/league/:leagueId(\d+)"
-        exact
-        render={props => pageRender(props, LeagueEditor)}
-      />
-      <Route
-        path="/league/:leagueId(\d+)/season"
-        exact
-        render={props => pageRender(props, SeasonCreate)}
-      />
-      <Route path="/scoresheet" exact render={props => pageRender(props, ScoreSheet)} />
-      {/* <Route path="/profile" exact render={PageRender} />
-    <Route path="/logout" exact render={PageRender} /> */}
-    </Switch>
+    <Router>
+      <Switch>
+        {ROUTES_CONFIG.map(({ exact, path, ...configs }, index) => (
+          <Route
+            key={index}
+            path={path}
+            exact={exact}
+            render={props => pageRender(props, { ...configs })}
+          />
+        ))}
+      </Switch>
+    </Router>
   );
 };
 

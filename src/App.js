@@ -1,5 +1,4 @@
 import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider } from "@material-ui/styles";
 import { createMuiTheme } from "@material-ui/core/styles";
@@ -7,6 +6,7 @@ import { red } from "@material-ui/core/colors";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import Routes from "./components/Routes";
+import { AuthContextProvider } from "./context";
 
 const theme = createMuiTheme({
   palette: {
@@ -23,16 +23,15 @@ const theme = createMuiTheme({
 });
 
 function App() {
-  const [auth, setAuth] = React.useState(false);
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <ThemeProvider theme={theme}>
-        <div className="app-container">
-          <CssBaseline />
-          <Router>
-            <Routes auth={auth} />
-          </Router>
-        </div>
+        <AuthContextProvider>
+          <div className="app-container">
+            <CssBaseline />
+            <Routes />
+          </div>
+        </AuthContextProvider>
       </ThemeProvider>
     </MuiPickersUtilsProvider>
   );
