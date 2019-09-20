@@ -5,10 +5,10 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, Redirect } from "react-router-dom";
 import { FormContainer } from "../../forms";
-import { TopContainer, PaddingContainer } from "../../common";
-import { useForm } from "../../../utils";
+import { TopContainer, PaddingContainer, Toast } from "../../common";
+import { useForm, useRedirect } from "../../../utils";
 
 const BottomForm = () => (
   <Grid container>
@@ -33,8 +33,12 @@ export const Login = () => {
   };
 
   const url = "http://localhost:5000/auth/login";
-  const { values, handleInputChange, handleSubmit, fetchState } = useForm(initialState, url);
-  const { loading } = fetchState;
+  const { values, handleInputChange, handleSubmit, loading, fetchResponse } = useForm(
+    initialState,
+    url
+  );
+
+  const { status: fetchStatus, value: fetchValue, message: fetchMessage } = fetchResponse;
 
   const formProps = {
     formHeader: "Sign In",
@@ -42,11 +46,18 @@ export const Login = () => {
     bottomForm: BottomForm
   };
 
+  const redirect = useRedirect(fetchStatus === "success");
+
+  if (redirect) {
+    return <Redirect to="/league" />;
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <TopContainer spacing={10}>
         <PaddingContainer paper center>
           <FormContainer type="signin" handleSubmit={handleSubmit} loading={loading} {...formProps}>
+            {fetchStatus && <Toast open={true} message={fetchMessage} status={fetchStatus} />}
             <Grid container spacing={2}>
               <TextField
                 variant="outlined"

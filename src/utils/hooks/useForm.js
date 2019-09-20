@@ -1,34 +1,30 @@
 import { useState } from "react";
+import { fetching } from "../../utils";
 
-export const useForm = (initialValues = {}, url) => {
-  const [values, setValues] = useState(initialValues);
-  const [fetchSuccess, setSuccess] = useState(false);
-  const [fetchError, setError] = useState(false);
+export const useForm = ({
+  initialState = {},
+  url,
+  successCallback = () => {},
+  errorCallback = () => {}
+}) => {
+  const [values, setValues] = useState(initialState);
+  const [fetchResponse, setResponse] = useState({ status: null, value: null, message: "" });
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async event => {
     if (event) event.preventDefault();
     if (url) {
       setLoading(true);
-      await fetch(url, {
-        method: "POST",
-        body: JSON.stringify(values),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-        .then(res => res.json())
-        .then(res => {
-          console.log("SUCCESS", res);
-          setSuccess(true);
-        })
-        .catch(err => {
-          console.log("ERROR:", err);
-          setError(true);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+      const { status, value, message } = await fetching({ url, queryParams: values });
+      if (status === "success") {
+        console.log("STATUS, succcesscallback", successCallback);
+        successCallback(value);
+      }
+      if (status === "error") {
+        errorCallback();
+      }
+      setResponse({ status, value, message });
+      setLoading(false);
     }
   };
 
@@ -54,10 +50,7 @@ export const useForm = (initialValues = {}, url) => {
     handleSubmit: fetchFn => handleSubmit(fetchFn),
     values,
     setValues,
-    fetchState: {
-      fetchSuccess,
-      fetchError,
-      loading
-    }
+    fetchResponse,
+    loading
   };
 };
