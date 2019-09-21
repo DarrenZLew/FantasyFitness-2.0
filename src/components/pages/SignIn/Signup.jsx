@@ -3,10 +3,10 @@ import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, Redirect } from "react-router-dom";
 import { FormContainer } from "../../forms";
-import { useForm } from "../../../utils";
-import { TopContainer, PaddingContainer } from "../../common";
+import { useForm, useRedirect  } from "../../../utils";
+import { TopContainer, PaddingContainer,ToastContainer } from "../../common";
 
 const BottomForm = () => (
   <Grid container justify="flex-end">
@@ -27,24 +27,27 @@ export function Signup() {
   };
 
   const url = "http://localhost:5000/auth/signup";
-  const { values, handleInputChange, handleSubmit, fetchState } = useForm(
-    initialState,
-    url,
-    () => {}
+  const { values, handleInputChange, handleSubmit, loading, fetchResponse } = useForm(
+    {initialState,
+    url}
   );
-  const { loading } = fetchState;
-
+  const { status: fetchStatus, value: fetchValue, message: fetchMessage } = fetchResponse;
+  const redirect = useRedirect({ redirectLogic: fetchStatus === "success", delay: 2000 });
   const formProps = {
     formHeader: "Sign Up",
     submitText: "Sign Up",
     bottomForm: BottomForm
   };
 
+  if (redirect) {
+    return <Redirect to="/login" />;
+  }
   return (
     <Container component="main" maxWidth="xs">
       <TopContainer spacing={10}>
         <PaddingContainer paper center>
           <FormContainer type="signin" handleSubmit={handleSubmit} loading={loading} {...formProps}>
+            <ToastContainer open={fetchStatus} message={fetchMessage} status={fetchStatus} />
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
