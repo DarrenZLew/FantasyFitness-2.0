@@ -34,7 +34,7 @@ export const useForm = ({
     }
   };
 
-  const handleChange = (name, id) => e => {
+  const handleChange = (name, id, path) => e => {
     e.persist();
     let newValue = e.target.value;
     if (e.target.type === "checkbox") {
@@ -42,17 +42,17 @@ export const useForm = ({
     } else if (e.target.type === "number" && (newValue < 0 || Number.isInteger(newValue))) {
       newValue = 0;
     }
-    if (Array.isArray(values)) {
-      const newValues = [...values];
+    if (typeof values === "object") {
+      const newValues = path ? [...values[path]] : [...values];
       newValues[id][name] = newValue;
-      setValues(newValues);
+      setValues(path ? { [path]: newValues } : newValues);
     } else {
       setValues(values => ({ ...values, [name]: newValue }));
     }
   };
 
   return {
-    handleInputChange: (name, id = null) => handleChange(name, id),
+    handleInputChange: (name, id = null, path) => handleChange(name, id, path),
     handleSubmit: fetchFn => handleSubmit(fetchFn),
     values,
     setValues,

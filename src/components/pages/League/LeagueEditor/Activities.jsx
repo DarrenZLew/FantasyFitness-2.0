@@ -7,7 +7,7 @@ import Fab from "@material-ui/core/Fab";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
-import { EditForm } from "../../../forms";
+import { FormContainer } from "../../../forms";
 import { useForm } from "../../../../utils";
 import { CardContainer } from "../../../common";
 
@@ -24,35 +24,31 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Activities = () => {
+const Activities = (props) => {
   const classes = useStyles();
-
-  const initialState = [];
-
-  const url = "http://localhost:5000/auth/login";
-  const { values, handleInputChange, handleSubmit, setValues } = useForm(
+  const { leagueId } = props;
+  const initialState = { activities: [] };
+  const url = "http://localhost:5000/activity";
+  const { values, handleInputChange, handleSubmit, loading, fetchResponse, setValues } = useForm({
     initialState,
     url,
-    () => {}
-  );
+    extraQueryParams: { league_id: leagueId }
+  });
 
   const deleteActivity = id => e => {
-    const newValues = [...values];
+    const newValues = [...values.activities];
     newValues.splice(id, 1);
-    setValues([...newValues]);
+    setValues({ activities: [...newValues] });
   };
   const addActivity = () => {
     const newActivity = { name: "", points: "", bonus: false };
-    setValues([...values, { ...newActivity }]);
+    setValues({ activities: [...values.activities, { ...newActivity }] });
   };
 
-  const formHeader = "Add your daily activities for your league";
-  const addItemText = "Add new activity";
   const ButtonComponent = () => {
-    return values.length > 0 ? (
+    return values.activities.length > 0 ? (
       <Button
         type="submit"
-        fullWidth
         variant="contained"
         color="primary"
         className={classes.submit}
@@ -62,20 +58,22 @@ const Activities = () => {
     ) : null;
   };
 
+  const formProps = {
+    formHeader: "Add your daily activities for your league",
+    ButtonComponent: ButtonComponent,
+    addItemText: "Add new activity",
+    addItem: addActivity,
+    type: "edit"
+  };
+
   return (
     <Grid container spacing={4}>
       <Grid item xs={12}>
         <CardContainer>
-          <EditForm
-            formHeader={formHeader}
-            addItem={addActivity}
-            addItemText={addItemText}
-            ButtonComponent={ButtonComponent}
-            handleSubmit={handleSubmit}
-          >
-            {values.length > 0 && (
+          <FormContainer type="signin" handleSubmit={handleSubmit} loading={loading} {...formProps}>
+            {values && values.activities.length > 0 && (
               <Grid container spacing={1}>
-                {values.map((activity, index) => {
+                {values.activities.map((activity, index) => {
                   const activityId = `activity-${index}`;
                   const activityPointsId = `activity-points-${index}`;
                   return (
@@ -85,12 +83,13 @@ const Activities = () => {
                           variant="outlined"
                           margin="normal"
                           fullWidth
+                          required
                           id={activityId}
                           label={`Activity ${index + 1}`}
                           name={activityId}
                           autoFocus
-                          value={values[index].name}
-                          onChange={handleInputChange("name", index)}
+                          value={values.activities[index].name}
+                          onChange={handleInputChange("name", index, "activities")}
                         />
                       </Grid>
                       <Grid item md={2} sm={3} xs={6}>
@@ -98,22 +97,23 @@ const Activities = () => {
                           variant="outlined"
                           margin="normal"
                           fullWidth
+                          required
                           id={activityPointsId}
                           label="Points"
                           name={activityPointsId}
                           type="number"
                           inputProps={{ min: "0" }}
-                          value={values[index].points}
-                          onChange={handleInputChange("points", index)}
+                          value={values.activities[index].points}
+                          onChange={handleInputChange("points", index, "activities")}
                         />
                       </Grid>
                       <Grid container item md={2} sm={3} xs={6} justify="center">
                         <FormControlLabel
                           control={
                             <Checkbox
-                              value={values[index].bonus}
-                              checked={values[index].bonus}
-                              onChange={handleInputChange("bonus", index)}
+                              value={values.activities[index].bonus}
+                              checked={values.activities[index].bonus}
+                              onChange={handleInputChange("bonus", index, "activities")}
                               color="primary"
                             />
                           }
@@ -126,9 +126,9 @@ const Activities = () => {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        value={values[index].challenge}
-                        checked={values[index].challenge}
-                        onChange={handleInputChange("challenge", index)}
+                        value={values.activities[index].challenge}
+                        checked={values.activities[index].challenge}
+                        onChange={handleInputChange("challenge", index, "activities")}
                         color="primary"
                       />
                     }
@@ -153,7 +153,7 @@ const Activities = () => {
                 })}
               </Grid>
             )}
-          </EditForm>
+          </FormContainer>
         </CardContainer>
       </Grid>
     </Grid>

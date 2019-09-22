@@ -7,8 +7,12 @@ const EditForm = ({ formHeader, children, addItem, addItemText, ButtonComponent 
     <Fragment>
       {formHeader && <FormHeader variant="subtitle1">{formHeader}</FormHeader>}
       <Grid container>{children}</Grid>
-      {addItem && <AddItem addItemHandler={addItem}>{addItemText}</AddItem>}
-      {ButtonComponent && <ButtonComponent />}
+      <Grid item xs={12}>
+        {addItem && <AddItem addItemHandler={addItem}>{addItemText}</AddItem>}
+      </Grid>
+      <Grid item xs={12}>
+        {ButtonComponent && <ButtonComponent />}
+      </Grid>
     </Fragment>
   );
 };

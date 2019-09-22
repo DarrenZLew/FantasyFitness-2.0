@@ -8,7 +8,7 @@ import { PaddingContainer, TopContainer } from "../../../common";
 
 const Content = ({ pageID, match }) => {
   const { leagueId } = match.params;
-  const pages = [<General />, <Activities />, <AddMember />, <Season leagueId={leagueId} />];
+  const pages = [<General />, <Activities leagueId={leagueId} />, <AddMember />, <Season leagueId={leagueId} />];
   return pages[pageID];
 };
 
