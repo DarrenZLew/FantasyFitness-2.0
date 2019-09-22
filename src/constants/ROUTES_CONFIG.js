@@ -53,7 +53,7 @@ export const ROUTES_CONFIG = [
     requiresAuth: true
   },
   {
-    path: "/league/:leagueId(d+)",
+    path: "/league/:leagueId",
     exact: true,
     Page: LeagueEditor,
     hasMenu: true,

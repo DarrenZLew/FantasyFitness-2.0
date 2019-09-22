@@ -5,7 +5,6 @@ import GeneralAvatar from "./GeneralAvatar";
 
 export const General = props => {
   const [editable, setEdit] = useState(false);
-  const { auth } = props;
 
   return (
     <Fragment>

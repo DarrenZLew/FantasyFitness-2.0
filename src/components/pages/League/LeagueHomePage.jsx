@@ -1,17 +1,33 @@
-import React from "react";
-import { CreateNewGroup, TopContainer, PaddingContainer } from "../../common";
+import React, { useContext } from "react";
+import { useFetch } from "../../../utils";
+import { CreateNewGroup, TopContainer, PaddingContainer, LoadingContainer, CardContainer } from "../../common";
+import { authContext } from "../../../context";
+import LeagueTable from "./LeagueTable";
 
 const LeagueHomePage = () => {
-  const url = {
+  const routeUrl = {
     pathname: "/league",
     type: "create"
   };
-  const text = "No leagues are currently available";
+
+  const { auth } = useContext(authContext);
+  const { id: member_id } = auth
+  const leagueUrl = `http://localhost:5000/league/member/${member_id}`;
+
+  let { response: leagueData, error, loading } = useFetch({ url: leagueUrl })
+
   const createBtnText = "Create New League";
   return (
     <TopContainer>
       <PaddingContainer>
-        <CreateNewGroup routeUrl={url} text={text} createBtnText={createBtnText} />
+        <CardContainer>
+          <CreateNewGroup routeUrl={routeUrl} createBtnText={createBtnText} />
+          <PaddingContainer>
+            <LoadingContainer loading={loading}>
+              <LeagueTable data={leagueData} />
+            </LoadingContainer>
+          </PaddingContainer>
+        </CardContainer>
       </PaddingContainer>
     </TopContainer>
   );

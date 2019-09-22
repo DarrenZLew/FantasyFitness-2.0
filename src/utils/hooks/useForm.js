@@ -4,8 +4,9 @@ import { fetching } from "../../utils";
 export const useForm = ({
   initialState = {},
   url,
-  successCallback = () => {},
-  errorCallback = () => {}
+  successCallback,
+  errorCallback,
+  extraQueryParams = {}
 }) => {
   const [values, setValues] = useState(initialState);
   const [fetchResponse, setResponse] = useState({ status: null, value: null, message: "" });
@@ -15,16 +16,21 @@ export const useForm = ({
     if (event) event.preventDefault();
     if (url) {
       setLoading(true);
-      const { status, value, message } = await fetching({ url, queryParams: values });
-      if (status === "success") {
-        console.log("STATUS, succcesscallback", successCallback);
-        successCallback(value);
+      try {
+        const { status, value, message } = await fetching({ url, queryParams: { ...values, ...extraQueryParams } });
+        if (status === "success") {
+          if (successCallback) successCallback(value);
+        }
+        if (status === "error") {
+          if (errorCallback) errorCallback();
+        }
+        setResponse({ status, value, message });
+      } catch (err) {
+        console.warn(err)
+        setResponse({ status: "error", value: err, message: 'unknown error caught in useForm, check console' })
+      } finally {
+        setLoading(false);
       }
-      if (status === "error") {
-        errorCallback();
-      }
-      setResponse({ status, value, message });
-      setLoading(false);
     }
   };
 
@@ -51,6 +57,6 @@ export const useForm = ({
     values,
     setValues,
     fetchResponse,
-    loading
+    loading,
   };
 };

@@ -18,7 +18,7 @@ const LeagueEditor = props => {
     setPageIndex(newIndex);
   };
   const pageTabs = ["General", "Activities", "Members", "Seasons"];
-
+  console.log("LEagueEditor")
   return (
     <TopContainer>
       <AppBar component="div" color="primary" position="static" elevation={0}>

@@ -43,8 +43,8 @@ export const Login = () => {
     url,
     successCallback
   });
-  const { status: fetchStatus, value: fetchValue, message: fetchMessage } = fetchResponse;
-  const redirect = useRedirect({ redirectLogic: fetchStatus === "success", delay: 4000 });
+  const { status: fetchStatus, message: fetchMessage } = fetchResponse;
+  const redirect = useRedirect({ redirectLogic: fetchStatus === "success", delay: 2000 });
   const formProps = {
     formHeader: "Sign In",
     submitText: "Sign In",

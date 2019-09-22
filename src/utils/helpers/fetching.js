@@ -33,6 +33,7 @@ export const fetching = async ({ url, queryParams }) => {
   try {
     response = await loadJson(fetchFn);
   } catch (err) {
+    console.warn(err)
     if (err instanceof HttpError && err.response.status === 404) {
       console.log("ERROR HERE");
     } else {
