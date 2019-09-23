@@ -42,7 +42,7 @@ export const useForm = ({
     } else if (e.target.type === "number" && (newValue < 0 || Number.isInteger(newValue))) {
       newValue = 0;
     }
-    if (typeof values === "object") {
+    if (Array.isArray(values) || (typeof values === "object" && path)) {
       const newValues = path ? [...values[path]] : [...values];
       newValues[id][name] = newValue;
       setValues(path ? { [path]: newValues } : newValues);
