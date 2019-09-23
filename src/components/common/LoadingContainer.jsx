@@ -5,7 +5,7 @@ const LoadingContainer = ({ loading, children }) => {
   if (loading) {
     return <CircularProgress />;
   }
-  return children;
+  return <>{children}</>;
 };
 
 export default LoadingContainer;

@@ -13,6 +13,9 @@ import { makeStyles } from "@material-ui/styles";
 import ImageIcon from "@material-ui/icons/Image";
 
 const useStyles = makeStyles(theme => ({
+  header: {
+    textTransform: "uppercase"
+  },
   details: {
     display: "flex",
     alignItems: "center",
@@ -31,30 +34,23 @@ const useStyles = makeStyles(theme => ({
 
 const GeneralAvatar = props => {
   const classes = useStyles();
-  const { className, ...rest } = props;
-
-  const league = {
-    name: "League Name",
-    type: "League Type",
-    avatar: null
-  };
-
+  const { className, data } = props;
   const AvatarImage = () =>
-    league.avatar ? (
-      <Avatar className={classes.avatar} src={league.avatar} />
+    data.avatar ? (
+      <Avatar className={classes.avatar} src={data.avatar} />
     ) : (
-      <Avatar className={classes.avatar}>
-        <ImageIcon />
-      </Avatar>
-    );
+        <Avatar className={classes.avatar}>
+          <ImageIcon />
+        </Avatar>
+      );
 
   return (
-    <Card {...rest} className={clsx(classes.root, className)}>
+    <Card className={clsx(classes.root, className)}>
       <CardContent>
         <div className={classes.details}>
           <div>
-            <Typography gutterBottom variant="h5">
-              {league.name}
+            <Typography variant="h3" className={classes.header}>
+              {data.name}
             </Typography>
           </div>
           <AvatarImage />
@@ -62,7 +58,7 @@ const GeneralAvatar = props => {
       </CardContent>
       <Divider />
       <CardActions>
-        <Button className={classes.uploadButton} color="primary" variant="text">
+        <Button className={classes.uploadButton} variant="text">
           Upload picture
         </Button>
         <Button variant="text">Remove picture</Button>

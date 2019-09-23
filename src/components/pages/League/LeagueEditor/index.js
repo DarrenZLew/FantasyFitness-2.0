@@ -8,7 +8,12 @@ import { PaddingContainer, TopContainer } from "../../../common";
 
 const Content = ({ pageID, match }) => {
   const { leagueId } = match.params;
-  const pages = [<General />, <Activities leagueId={leagueId} />, <AddMember />, <Season leagueId={leagueId} />];
+  const pages = [
+    <General leagueId={leagueId} />,
+    <Activities leagueId={leagueId} />,
+    <AddMember leagueId={leagueId} />,
+    <Season leagueId={leagueId} />
+  ];
   return pages[pageID];
 };
 
@@ -18,7 +23,6 @@ const LeagueEditor = props => {
     setPageIndex(newIndex);
   };
   const pageTabs = ["General", "Activities", "Members", "Seasons"];
-  console.log("LEagueEditor")
   return (
     <TopContainer>
       <AppBar component="div" color="primary" position="static" elevation={0}>
