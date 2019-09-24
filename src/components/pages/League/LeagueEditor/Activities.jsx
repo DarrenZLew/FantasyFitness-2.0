@@ -8,7 +8,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import { FormContainer } from "../../../forms";
-import { useForm } from "../../../../utils";
+import { useForm, useFetch } from "../../../../utils";
 import { CardContainer } from "../../../common";
 
 const useStyles = makeStyles(theme => ({
@@ -28,12 +28,19 @@ const Activities = (props) => {
   const classes = useStyles();
   const { leagueId } = props;
   const initialState = { activities: [] };
-  const url = "http://localhost:5000/activity";
-  const { values, handleInputChange, handleSubmit, loading, fetchResponse, setValues } = useForm({
+  const url = `http://localhost:5000/league/${leagueId}/activity`;
+  const { values, handleInputChange, handleSubmit, loading: formLoading, fetchResponse, setValues } = useForm({
     initialState,
-    url,
-    extraQueryParams: { league_id: leagueId }
+    url
   });
+
+  let { response, error, loading: fetchLoading } = useFetch({ url })
+  const { value } = response;
+
+  console.log(value)
+  console.log(values)
+
+  const loading = formLoading || false
 
   const deleteActivity = id => e => {
     const newValues = [...values.activities];
