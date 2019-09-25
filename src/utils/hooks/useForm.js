@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { fetching } from "../../utils";
 
 export const useForm = ({
@@ -6,18 +6,34 @@ export const useForm = ({
   url,
   successCallback,
   errorCallback,
-  extraQueryParams = {}
+  extraQueryParams = {},
+  onMountPath = "",
+  onMount = false
 }) => {
   const [values, setValues] = useState(initialState);
   const [fetchResponse, setResponse] = useState({ status: null, value: null, message: "" });
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (onMount) {
+      const fetchData = async () => {
+        const response = await fetching({ url });
+        const { value } = response;
+        setValues(onMountPath ? { [onMountPath]: value } : value);
+      };
+      fetchData();
+    }
+  }, [url, onMountPath, onMount]);
 
   const handleSubmit = async event => {
     if (event) event.preventDefault();
     if (url) {
       setLoading(true);
       try {
-        const { status, value, message } = await fetching({ url, queryParams: { ...values, ...extraQueryParams } });
+        const { status, value, message } = await fetching({
+          url,
+          queryParams: { ...values, ...extraQueryParams }
+        });
         if (status === "success") {
           if (successCallback) successCallback(value);
         }
@@ -26,8 +42,12 @@ export const useForm = ({
         }
         setResponse({ status, value, message });
       } catch (err) {
-        console.warn(err)
-        setResponse({ status: "error", value: err, message: 'unknown error caught in useForm, check console' })
+        console.warn(err);
+        setResponse({
+          status: "error",
+          value: err,
+          message: "unknown error caught in useForm, check console"
+        });
       } finally {
         setLoading(false);
       }
@@ -57,6 +77,6 @@ export const useForm = ({
     values,
     setValues,
     fetchResponse,
-    loading,
+    loading
   };
 };

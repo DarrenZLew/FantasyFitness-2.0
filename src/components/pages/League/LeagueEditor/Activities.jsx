@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import DeleteIcon from "@material-ui/icons/Delete";
 import TextField from "@material-ui/core/TextField";
@@ -24,23 +24,27 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Activities = (props) => {
+const Activities = props => {
   const classes = useStyles();
   const { leagueId } = props;
-  const initialState = { activities: [] };
-  const url = `http://localhost:5000/league/${leagueId}/activity`;
-  const { values, handleInputChange, handleSubmit, loading: formLoading, fetchResponse, setValues } = useForm({
-    initialState,
-    url
-  });
 
-  let { response, error, loading: fetchLoading } = useFetch({ url })
-  const { value } = response;
+  const useFormProps = {
+    url: `http://localhost:5000/league/${leagueId}/activity`,
+    initialState: { activities: [] },
+    onMountPath: "activities",
+    onMount: true
+  };
 
-  console.log(value)
-  console.log(values)
+  const {
+    values = { activities: [] },
+    handleInputChange,
+    handleSubmit,
+    loading: formLoading,
+    fetchResponse,
+    setValues
+  } = useForm({ ...useFormProps });
 
-  const loading = formLoading || false
+  const loading = formLoading || false;
 
   const deleteActivity = id => e => {
     const newValues = [...values.activities];
@@ -54,12 +58,7 @@ const Activities = (props) => {
 
   const ButtonComponent = () => {
     return values.activities.length > 0 ? (
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        className={classes.submit}
-      >
+      <Button type="submit" variant="contained" color="primary" className={classes.submit}>
         Update League Activities
       </Button>
     ) : null;
@@ -78,7 +77,7 @@ const Activities = (props) => {
       <Grid item xs={12}>
         <CardContainer>
           <FormContainer type="signin" handleSubmit={handleSubmit} loading={loading} {...formProps}>
-            {values && values.activities.length > 0 && (
+            {values.activities.length > 0 && (
               <Grid container spacing={1}>
                 {values.activities.map((activity, index) => {
                   const activityId = `activity-${index}`;
