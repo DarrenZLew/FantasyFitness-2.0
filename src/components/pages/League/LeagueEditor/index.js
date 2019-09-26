@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { AppBar, Tabs, Tab } from "@material-ui/core";
-import AddMember from "./AddMember";
+import Members from "./Members";
 import Activities from "./Activities";
 import General from "./General/General";
 import Season from "./Season";
@@ -11,7 +11,7 @@ const Content = ({ pageID, match }) => {
   const pages = [
     <General leagueId={leagueId} />,
     <Activities leagueId={leagueId} />,
-    <AddMember leagueId={leagueId} />,
+    <Members leagueId={leagueId} />,
     <Season leagueId={leagueId} />
   ];
   return pages[pageID];

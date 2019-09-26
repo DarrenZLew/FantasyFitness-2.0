@@ -13,6 +13,7 @@ import {
 import { makeStyles } from "@material-ui/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import RefreshIcon from "@material-ui/icons/Refresh";
+import { useForm } from "../../../../utils";
 
 const useStyles = makeStyles(theme => ({
   searchBar: {
@@ -32,8 +33,26 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const AddMember = () => {
+const Members = props => {
   const classes = useStyles();
+
+  const { leagueId } = props;
+
+  const useFormProps = {
+    url: `http://localhost:5000/league/${leagueId}/member`,
+    initialState: { activities: [] },
+    onMountPath: "members",
+    onMount: true
+  };
+
+  const {
+    values = { members: [] },
+    handleInputChange,
+    handleSubmit,
+    loading,
+    fetchResponse,
+    setValues
+  } = useForm({ ...useFormProps });
   return (
     <Fragment>
       <AppBar className={classes.searchBar} position="static" color="default" elevation={0}>
@@ -76,4 +95,4 @@ const AddMember = () => {
   );
 };
 
-export default AddMember;
+export default Members;
