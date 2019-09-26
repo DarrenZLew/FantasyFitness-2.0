@@ -17,9 +17,11 @@ export const useForm = ({
   useEffect(() => {
     if (onMount) {
       const fetchData = async () => {
+        setLoading(true);
         const response = await fetching({ url });
         const { value } = response;
         setValues(onMountPath ? { [onMountPath]: value } : value);
+        setLoading(false);
       };
       fetchData();
     }

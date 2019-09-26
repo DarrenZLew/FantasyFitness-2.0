@@ -39,12 +39,10 @@ const Activities = props => {
     values = { activities: [] },
     handleInputChange,
     handleSubmit,
-    loading: formLoading,
+    loading,
     fetchResponse,
     setValues
   } = useForm({ ...useFormProps });
-
-  const loading = formLoading || false;
 
   const deleteActivity = id => e => {
     const newValues = [...values.activities];
@@ -75,7 +73,7 @@ const Activities = props => {
   return (
     <Grid container spacing={4}>
       <Grid item xs={12}>
-        <CardContainer>
+        <CardContainer center>
           <FormContainer type="signin" handleSubmit={handleSubmit} loading={loading} {...formProps}>
             {values.activities.length > 0 && (
               <Grid container spacing={1}>
