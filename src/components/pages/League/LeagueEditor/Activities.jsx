@@ -12,10 +12,6 @@ import { useForm } from "../../../../utils";
 import { CardContainer } from "../../../common";
 
 const useStyles = makeStyles(theme => ({
-  icon: {
-    fontSize: 25,
-    marginRight: theme.spacing(1)
-  },
   button: {
     margin: theme.spacing(1)
   },
@@ -74,7 +70,7 @@ const Activities = props => {
     <Grid container spacing={4}>
       <Grid item xs={12}>
         <CardContainer center>
-          <FormContainer type="signin" handleSubmit={handleSubmit} loading={loading} {...formProps}>
+          <FormContainer handleSubmit={handleSubmit} loading={loading} {...formProps}>
             {values.activities.length > 0 && (
               <Grid container spacing={1}>
                 {values.activities.map((activity, index) => {
@@ -140,7 +136,15 @@ const Activities = props => {
                     labelPlacement="top"
                   />
                 </Grid> */}
-                      <Grid container item md={2} sm={3} xs={6} alignItems="center">
+                      <Grid
+                        container
+                        item
+                        md={2}
+                        sm={3}
+                        xs={6}
+                        alignItems="center"
+                        justify="center"
+                      >
                         <Fab
                           color="primary"
                           variant="extended"
