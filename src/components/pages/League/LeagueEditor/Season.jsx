@@ -3,7 +3,7 @@ import { CreateNewGroup } from "../../../common";
 
 const Season = props => {
   const { leagueId } = props;
-  const url = `/league/${leagueId}/season`;
+  const url = `/leagues/${leagueId}/season`;
   const text = "Current season has not started yet";
   const createBtnText = "Create New Season";
 

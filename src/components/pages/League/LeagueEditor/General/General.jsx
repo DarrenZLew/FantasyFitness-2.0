@@ -6,7 +6,7 @@ import { useFetch } from "../../../../../utils";
 import { LoadingContainer, CardContainer } from "../../../../common";
 
 export const General = ({ leagueId }) => {
-  const leagueUrl = `http://localhost:5000/league/${leagueId}`;
+  const leagueUrl = `http://localhost:5000/leagues/${leagueId}`;
   let { response: { value: leagueData = {} } = {}, error, loading } = useFetch({ url: leagueUrl });
   if (loading) {
     return (

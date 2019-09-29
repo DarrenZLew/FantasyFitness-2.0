@@ -1,12 +1,12 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid"
-import TextField from "@material-ui/core/TextField"
+import Grid from "@material-ui/core/Grid";
+import TextField from "@material-ui/core/TextField";
 import { useForm } from "../../../../../utils";
 import { FormContainer } from "../../../../forms";
 
 const EditableProfile = ({ data, leagueId }) => {
   const initialState = { name: data.name || "", type: data.type || "" };
-  const url = `http://localhost:5000/league/${leagueId}`;
+  const url = `http://localhost:5000/leagues/${leagueId}`;
   const { values, handleInputChange, handleSubmit, loading, fetchResponse } = useForm({
     initialState,
     url
@@ -14,7 +14,7 @@ const EditableProfile = ({ data, leagueId }) => {
 
   const formProps = {
     type: "edit"
-  }
+  };
 
   return (
     <FormContainer type="signin" handleSubmit={handleSubmit} loading={loading} {...formProps}>
@@ -78,4 +78,4 @@ const EditableProfile = ({ data, leagueId }) => {
   );
 };
 
-export default EditableProfile
+export default EditableProfile;

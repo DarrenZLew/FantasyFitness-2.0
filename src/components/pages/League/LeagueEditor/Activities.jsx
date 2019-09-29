@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import DeleteIcon from "@material-ui/icons/Delete";
 import TextField from "@material-ui/core/TextField";
@@ -8,7 +8,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import { FormContainer } from "../../../forms";
-import { useForm, useFetch } from "../../../../utils";
+import { useForm } from "../../../../utils";
 import { CardContainer } from "../../../common";
 
 const useStyles = makeStyles(theme => ({
@@ -29,7 +29,7 @@ const Activities = props => {
   const { leagueId } = props;
 
   const useFormProps = {
-    url: `http://localhost:5000/league/${leagueId}/activity`,
+    url: `http://localhost:5000/leagues/${leagueId}/activities`,
     initialState: { activities: [] },
     onMountPath: "activities",
     onMount: true

@@ -13,9 +13,9 @@ const LeagueInfo = () => {
   };
 
   const { auth } = useContext(authContext);
-  const { id: member_id } = auth
-  const url = "http://localhost:5000/league";
-  const extraQueryParams = { member_id }
+  const { id: member_id } = auth;
+  const url = "http://localhost:5000/leagues";
+  const extraQueryParams = { member_id };
   const { values, handleInputChange, handleSubmit, fetchResponse, loading } = useForm({
     initialState,
     url,
@@ -28,10 +28,10 @@ const LeagueInfo = () => {
   const formHeader = "Fill in information about your league";
   const disabledSubmit = Object.values(values).some(item => !item);
 
-  const leagueHomePage = { pathname: "/league", type: "home" }
+  const leagueHomePage = { pathname: "/league", type: "home" };
 
   if (redirect) {
-    return <Redirect to={leagueHomePage} />
+    return <Redirect to={leagueHomePage} />;
   }
   const ButtonComponent = () => {
     return (

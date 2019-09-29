@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
 const CardContainer = ({ children, center }) => {
   const classes = useStyles();
   return (
-    <Card className={classes.center}>
+    <Card className={center ? classes.center : ""}>
       <CardContent>{children}</CardContent>
     </Card>
   );
