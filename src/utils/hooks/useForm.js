@@ -8,10 +8,16 @@ export const useForm = ({
   errorCallback,
   extraBodyParams = {},
   onMountPath = "",
-  onMount = false
+  onMount = false,
+  formKeys
 }) => {
+  // Form values
   const [values, setValues] = useState(initialState);
+  // Response from on form create url
+  const [onFormCreateValues, setOnFormCreateValues] = useState(null);
+  // Response from submit form
   const [fetchResponse, setResponse] = useState({ status: null, value: null, message: "" });
+  // Loading
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -20,12 +26,33 @@ export const useForm = ({
         setLoading(true);
         const response = await fetching({ url });
         const { value } = response;
-        setValues(onMountPath ? { [onMountPath]: value } : value);
+        setOnFormCreateValues(onMountPath ? { [onMountPath]: value } : value);
+
+        let formValues = value;
+        if (formKeys) {
+          formValues = createFormValues(formValues, formKeys);
+        }
+        console.log(formValues);
+        setValues(onMountPath ? { [onMountPath]: formValues } : formValues);
+
         setLoading(false);
       };
       fetchData();
     }
-  }, [url, onMountPath, onMount]);
+  }, [url, onMountPath, onMount, formKeys]);
+
+  const createFormValues = (formValues, formKeys) => {
+    if (Array.isArray(formValues)) {
+      return formValues.map(val => {
+        return formKeys.reduce((acc, curr) => {
+          return {
+            ...acc,
+            [curr.name]: curr.pathFn ? curr.pathFn(val) : val[curr.name]
+          };
+        }, {});
+      });
+    }
+  };
 
   const handleSubmit = async event => {
     if (event) event.preventDefault();
@@ -67,7 +94,9 @@ export const useForm = ({
     if (Array.isArray(values) || (typeof values === "object" && path)) {
       const newValues = path ? [...values[path]] : [...values];
       newValues[id][name] = newValue;
+      console.log("handleChange", name);
       setValues(path ? { [path]: newValues } : newValues);
+      console.log("handleChange", newValues);
     } else {
       setValues(values => ({ ...values, [name]: newValue }));
     }
@@ -79,6 +108,7 @@ export const useForm = ({
     values,
     setValues,
     fetchResponse,
-    loading
+    loading,
+    onFormCreateValues
   };
 };
