@@ -14,7 +14,9 @@ const CardContainer = ({ children, center }) => {
   const classes = useStyles();
   return (
     <Card className={center ? classes.center : ""}>
-      <CardContent>{children}</CardContent>
+      <CardContent style={{ width: "100%" }} className={center ? classes.center : ""}>
+        {children}
+      </CardContent>
     </Card>
   );
 };
