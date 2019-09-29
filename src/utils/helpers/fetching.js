@@ -15,16 +15,16 @@ const loadJson = async fetchFn => {
   }
 };
 
-export const fetching = async ({ url, queryParams }) => {
+export const fetching = async ({ url, bodyParams }) => {
   const fetchFn = () => {
     const config = {
-      method: queryParams ? "POST" : "GET",
+      method: bodyParams ? "POST" : "GET",
       headers: {
         "Content-Type": "application/json"
       }
     };
-    if (queryParams) {
-      config.body = JSON.stringify(queryParams);
+    if (bodyParams) {
+      config.body = JSON.stringify(bodyParams);
     }
     return fetch(url, config);
   };
@@ -33,7 +33,7 @@ export const fetching = async ({ url, queryParams }) => {
   try {
     response = await loadJson(fetchFn);
   } catch (err) {
-    console.warn(err)
+    console.warn(err);
     if (err instanceof HttpError && err.response.status === 404) {
       console.log("ERROR HERE");
     } else {

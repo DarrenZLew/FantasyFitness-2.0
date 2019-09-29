@@ -6,7 +6,7 @@ export const useForm = ({
   url,
   successCallback,
   errorCallback,
-  extraQueryParams = {},
+  extraBodyParams = {},
   onMountPath = "",
   onMount = false
 }) => {
@@ -34,7 +34,7 @@ export const useForm = ({
       try {
         const { status, value, message } = await fetching({
           url,
-          queryParams: { ...values, ...extraQueryParams }
+          bodyParams: { ...values, ...extraBodyParams }
         });
         if (status === "success") {
           if (successCallback) successCallback(value);
