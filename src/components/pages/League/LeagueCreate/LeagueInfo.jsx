@@ -15,11 +15,11 @@ const LeagueInfo = () => {
   const { auth } = useContext(authContext);
   const { id: member_id } = auth;
   const url = "http://localhost:5000/leagues";
-  const extraQueryParams = { member_id };
+  const extraBodyParams = { member_id };
   const { values, handleInputChange, handleSubmit, fetchResponse, loading } = useForm({
     initialState,
     url,
-    extraQueryParams
+    extraBodyParams
   });
 
   const { status: fetchStatus, message: fetchMessage } = fetchResponse;
