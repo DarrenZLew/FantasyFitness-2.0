@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { fetching, queryString } from "../../utils";
 
-export const useFetch = ({ url, queryParams, bodyParams }) => {
-  const [response, setResponse] = useState({});
+export const useFetch = ({ url, queryParams, bodyParams, initialResponse = {} }) => {
+  const [response, setResponse] = useState(initialResponse);
   const [error, setError] = useState(null);
   const [loading, setIsLoading] = useState(false);
 

@@ -26,18 +26,11 @@ const Members = props => {
   const { leagueId } = props;
 
   const useFetchProps = {
-    url: `http://localhost:5000/leagues/${leagueId}/members`,
-    queryParams: {
-      in: false
-    }
+    url: `http://localhost:5000/auth/members`,
+    initialResponse: []
   };
 
-  const {
-    response: { value: nonMembers = [] }
-  } = useFetch({ ...useFetchProps });
-
-  console.log(nonMembers);
-
+  const { response: allMembers = [] } = useFetch({ ...useFetchProps });
   const useFormProps = {
     url: `http://localhost:5000/leagues/${leagueId}/members`,
     initialState: { members: [] },
@@ -51,7 +44,6 @@ const Members = props => {
         {
           name: "privilege",
           pathFn: data => {
-            console.log(data, leagueId);
             return data.leagues
               ? data.leagues.find(league => league.league_id === +leagueId).privilege
               : null;
@@ -63,7 +55,7 @@ const Members = props => {
   };
 
   const {
-    values = { members: [] },
+    values: currMembers = { members: [] },
     onFormCreateValues = { members: [] },
     handleInputChange,
     handleSubmit,
@@ -71,9 +63,8 @@ const Members = props => {
     fetchResponse,
     setValues
   } = useForm({ ...useFormProps });
-  console.log(values, onFormCreateValues);
   const ButtonComponent = () => {
-    return values.members.length > 0 ? (
+    return currMembers.members.length > 0 ? (
       <Button type="submit" variant="contained" color="primary" className={classes.submit}>
         Update League Members
       </Button>
@@ -81,13 +72,13 @@ const Members = props => {
   };
 
   const deleteMember = id => e => {
-    const newValues = [...values.members];
+    const newValues = [...currMembers.members];
     newValues.splice(id, 1);
     setValues({ members: [...newValues] });
   };
   const addMember = () => {
-    const newMember = { member_id: "", privilege: "" };
-    setValues({ members: [...values.members, { ...newMember }] });
+    const newMember = { id: "", privilege: "member" };
+    setValues({ members: [...currMembers.members, { ...newMember }] });
   };
 
   const formContainerProps = {
@@ -103,18 +94,9 @@ const Members = props => {
       <Grid item xs={12}>
         <CardContainer center>
           <FormContainer handleSubmit={handleSubmit} loading={loading} {...formContainerProps}>
-            {values.members.length > 0 && (
+            {currMembers.members.length > 0 && (
               <Grid container spacing={1}>
-                {values.members.map((member, index) => {
-                  const privilege = member.leagues
-                    ? member.leagues.find(({ league_id }) => league_id === +leagueId).privilege
-                    : "";
-                  const memberData = onFormCreateValues.members[index] || {};
-                  const memberName =
-                    memberData.first_name && memberData.last_name
-                      ? `${memberData.first_name} ${memberData.last_name}`
-                      : "";
-
+                {currMembers.members.map((member, index, currMembersList) => {
                   return (
                     <Fragment key={index}>
                       <Grid item md={4} sm={6} xs={6}>
@@ -129,19 +111,29 @@ const Members = props => {
                               name: `Member ${index + 1}`,
                               id: "member-name"
                             }}
-                            // disabled={member.id ? true : false}
+                            disabled={
+                              member.id &&
+                              onFormCreateValues.members.find(
+                                initMember => initMember.id === member.id
+                              )
+                                ? true
+                                : false
+                            }
                           >
                             <MenuItem value="">None</MenuItem>
-                            {!nonMembers.find(e => member.id === e.id) && member.id && (
-                              <MenuItem value={member.id}>{memberName}</MenuItem>
-                            )}
-                            {nonMembers.map(nonMember => {
-                              return (
-                                <MenuItem key={nonMember.id} value={nonMember.id}>
-                                  {nonMember.first_name} {nonMember.lastName}
-                                </MenuItem>
+                            {allMembers.reduce((acc, curr) => {
+                              const foundCurrMemberIndex = currMembersList.findIndex(
+                                m => m.id === curr.id
                               );
-                            })}
+                              if (foundCurrMemberIndex === -1 || foundCurrMemberIndex === index)
+                                return [
+                                  ...acc,
+                                  <MenuItem key={curr.id} value={curr.id}>
+                                    {curr.first_name} {curr.last_name}
+                                  </MenuItem>
+                                ];
+                              return acc;
+                            }, [])}
                           </Select>
                         </FormControl>
                       </Grid>
@@ -151,7 +143,7 @@ const Members = props => {
                           <Select
                             variant="outlined"
                             fullWidth
-                            value={privilege || "member"}
+                            value={member.privilege || "member"}
                             onChange={handleInputChange("privilege", index, "members")}
                             inputProps={{
                               name: `Privilege`,
