@@ -3,7 +3,7 @@ import { fetching, hasKey } from "../../utils";
 import { IFetchProps, IUseFormFetchResponse } from "../../types";
 
 interface IInitialState {
-  [key: string]: boolean | number | string | IInitialState[];
+  [key: string]: boolean | number | string | Date | IInitialState[];
 }
 
 interface IFormKeys {
@@ -32,7 +32,6 @@ export const useForm = ({
   extraBodyParams = {},
   formPath = "",
   updateFormValues = false,
-  onMount = false,
   formKeys
 }: IUseFormProps) => {
   // Form values
@@ -50,7 +49,7 @@ export const useForm = ({
   const [updateForm, setUpdateForm] = useState(updateFormValues);
 
   useEffect(() => {
-    if (onMount || updateForm) {
+    if (updateForm) {
       const fetchData = async () => {
         setLoading(true);
         const response = await fetching({ url });
@@ -67,7 +66,7 @@ export const useForm = ({
       };
       fetchData();
     }
-  }, [url, formPath, updateFormValues, onMount, formKeys, updateForm]);
+  }, [url, formPath, updateFormValues, formKeys, updateForm]);
 
   const createFormValues = (formValues: IInitialState, formKeys: IFormKeys[]) => {
     if (Array.isArray(formValues)) {
@@ -86,7 +85,9 @@ export const useForm = ({
     if (e) e.preventDefault();
     if (url) {
       setLoading(true);
-      setUpdateForm(true);
+      if (updateFormValues) {
+        setUpdateForm(true);
+      }
       try {
         const { status, value, message } = await fetching({
           url,
@@ -112,7 +113,7 @@ export const useForm = ({
     }
   };
 
-  const handleChange = (name: string, id?: number, path?: string) => (
+  const handleInputChange = (name: string, id?: number, path?: string) => (
     e:
       | React.FormEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
       | React.ChangeEvent<{ name?: string; value: unknown }>
@@ -134,8 +135,14 @@ export const useForm = ({
     }
   };
 
+  const handleDateChange = (name: string) => (date: Date) => {
+    setValues((values: any) => ({ ...values, [name]: date }));
+  };
+
   return {
-    handleInputChange: (name: string, id?: number, path?: string) => handleChange(name, id, path),
+    handleInputChange: (name: string, id?: number, path?: string) =>
+      handleInputChange(name, id, path),
+    handleDateChange: (name: string) => handleDateChange(name),
     handleSubmit,
     values,
     setValues,

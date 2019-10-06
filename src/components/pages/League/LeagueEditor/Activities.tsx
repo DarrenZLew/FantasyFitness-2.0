@@ -30,7 +30,6 @@ const Activities: React.FC<ILeagueId> = props => {
     initialState: { activities: [] as any[] },
     formPath: "activities",
     updateFormValues: true,
-    onMount: true,
     formKeys: useMemo(
       () => [
         {
@@ -73,13 +72,13 @@ const Activities: React.FC<ILeagueId> = props => {
   const ButtonComponent = () => {
     return values.activities.length > 0 ? (
       <Button type="submit" variant="contained" color="primary" className={classes.submit}>
-        Update League Activities
+        Update Activities
       </Button>
     ) : null;
   };
 
   const formProps = {
-    formHeader: "Add your daily activities for your league",
+    formHeader: "League Activities",
     ButtonComponent: ButtonComponent,
     addItemText: "Add new activity",
     addItem: addActivity,

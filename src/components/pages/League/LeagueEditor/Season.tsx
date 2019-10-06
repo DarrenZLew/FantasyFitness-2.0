@@ -1,13 +1,121 @@
-import React from "react";
-import { CreateNewGroup } from "../../../common";
+import React, { Fragment, useMemo } from "react";
+import { makeStyles, Theme } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import { KeyboardDatePicker } from "@material-ui/pickers";
+import { FormContainer } from "../../../forms";
+import { useForm } from "../../../../utils";
+import { CardContainer } from "../../../common";
 import { ILeagueId } from "../../../../types";
 
-const Season: React.FC<ILeagueId> = props => {
-  const { leagueId } = props;
-  const url = `/leagues/${leagueId}/season`;
-  const createBtnText = "Create New Season";
+const useStyles = makeStyles((theme: Theme) => ({
+  button: {
+    margin: theme.spacing(1)
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2)
+  }
+}));
 
-  return <CreateNewGroup routeUrl={url} createBtnText={createBtnText} />;
+const Season: React.FC<ILeagueId> = props => {
+  const classes = useStyles({});
+  const { leagueId } = props;
+
+  const useFormProps = {
+    url: `http://localhost:5000/leagues/${leagueId}/seasons`,
+    initialState: {
+      weeks: 0,
+      start_date: new Date()
+    },
+    updateFormValues: true
+    // formKeys: useMemo(
+    //   () => [
+    //     {
+    //       name: "weeks"
+    //     },
+    //     {
+    //       name: "startDate"
+    //     }
+    //   ],
+    //   [leagueId]
+    // )
+  };
+
+  const {
+    values,
+    handleInputChange,
+    handleDateChange,
+    handleSubmit,
+    loading,
+    fetchResponse
+  } = useForm({
+    ...useFormProps
+  });
+
+  const ButtonComponent = () => {
+    return (
+      <Button type="submit" variant="contained" color="primary" className={classes.submit}>
+        Update Season
+      </Button>
+    );
+  };
+  const formProps = {
+    formHeader: "League Season Information",
+    ButtonComponent: ButtonComponent,
+    type: "edit"
+  };
+  console.log(values);
+  return (
+    <Grid container spacing={4}>
+      <Grid item xs={12}>
+        <CardContainer center>
+          <FormContainer handleSubmit={handleSubmit} loading={loading} {...formProps}>
+            <Fragment>
+              <Grid container spacing={1}>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="weeks"
+                    label="Number of Weeks in Season"
+                    id="weeks"
+                    type="number"
+                    value={values.weeks || ""}
+                    onChange={handleInputChange("weeks")}
+                    inputProps={{ min: "0", steps: "1" }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <KeyboardDatePicker
+                    disablePast
+                    clearable
+                    inputVariant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="start_date"
+                    label="Start Date of Season"
+                    id="start_date"
+                    disableToolbar
+                    KeyboardButtonProps={{
+                      "aria-label": "change date"
+                    }}
+                    format="MM/dd/yyyy"
+                    InputAdornmentProps={{ position: "start" }}
+                    value={values.start_date || new Date()}
+                    onChange={handleDateChange("start_date")}
+                  />
+                </Grid>
+              </Grid>
+            </Fragment>
+          </FormContainer>
+        </CardContainer>
+      </Grid>
+    </Grid>
+  );
 };
 
 export default Season;

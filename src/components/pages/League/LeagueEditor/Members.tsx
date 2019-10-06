@@ -40,7 +40,6 @@ const Members: React.FC<ILeagueId> = props => {
     initialState: { members: [] as any[] },
     formPath: "members",
     updateFormValues: true,
-    onMount: true,
     formKeys: useMemo(
       () => [
         {
@@ -75,7 +74,7 @@ const Members: React.FC<ILeagueId> = props => {
   const ButtonComponent = () => {
     return currMembers.members.length > 0 ? (
       <Button type="submit" variant="contained" color="primary" className={classes.submit}>
-        Update League Members
+        Update Members
       </Button>
     ) : null;
   };
