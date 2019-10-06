@@ -110,6 +110,7 @@ const Activities: React.FC<ILeagueId> = props => {
                           autoFocus
                           value={activity.name}
                           onChange={handleInputChange("name", index, "activities")}
+                          disabled={!activity.created ? true : false}
                         />
                       </Grid>
                       <Grid item md={3} sm={12} xs={12}>
