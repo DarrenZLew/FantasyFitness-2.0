@@ -8,7 +8,7 @@ interface IInitialState {
 
 interface IFormKeys {
   name: string;
-  pathFn?: (data: any) => any | null;
+  valueFormatter?: (data: any) => any | null;
 }
 
 interface IUseFormProps extends IFetchProps {
@@ -18,8 +18,9 @@ interface IUseFormProps extends IFetchProps {
   extraBodyParams?: {
     [key: string]: boolean | number | string;
   };
-  onMountPath?: string;
+  formPath?: string;
   onMount?: boolean;
+  updateFormValues?: boolean;
   formKeys?: IFormKeys[];
 }
 
@@ -29,7 +30,8 @@ export const useForm = ({
   successCallback,
   errorCallback,
   extraBodyParams = {},
-  onMountPath = "",
+  formPath = "",
+  updateFormValues = false,
   onMount = false,
   formKeys
 }: IUseFormProps) => {
@@ -45,26 +47,27 @@ export const useForm = ({
   });
   // Loading
   const [loading, setLoading] = useState(false);
+  const [updateForm, setUpdateForm] = useState(updateFormValues);
 
   useEffect(() => {
-    if (onMount) {
+    if (onMount || updateForm) {
       const fetchData = async () => {
         setLoading(true);
         const response = await fetching({ url });
         const { value } = response;
-        setOnFormCreateValues(onMountPath ? { [onMountPath]: value } : value);
+        setOnFormCreateValues(formPath ? { [formPath]: value } : value);
 
         let formValues = value;
         if (formKeys) {
           formValues = createFormValues(formValues, formKeys);
         }
-        setValues(onMountPath ? { [onMountPath]: formValues } : formValues);
-
+        setValues(formPath ? { [formPath]: formValues } : formValues);
+        setUpdateForm(false);
         setLoading(false);
       };
       fetchData();
     }
-  }, [url, onMountPath, onMount, formKeys]);
+  }, [url, formPath, updateFormValues, onMount, formKeys, updateForm]);
 
   const createFormValues = (formValues: IInitialState, formKeys: IFormKeys[]) => {
     if (Array.isArray(formValues)) {
@@ -72,7 +75,7 @@ export const useForm = ({
         return formKeys.reduce((acc, curr) => {
           return {
             ...acc,
-            [curr.name]: curr.pathFn ? curr.pathFn(val) : val[curr.name]
+            [curr.name]: curr.valueFormatter ? curr.valueFormatter(val) : val[curr.name]
           };
         }, {});
       });
@@ -83,6 +86,7 @@ export const useForm = ({
     if (e) e.preventDefault();
     if (url) {
       setLoading(true);
+      setUpdateForm(true);
       try {
         const { status, value, message } = await fetching({
           url,
@@ -124,9 +128,7 @@ export const useForm = ({
     if (Array.isArray(values) || (typeof values === "object" && path)) {
       const newValues = path && hasKey(values, path) ? [...values[path]] : [...values];
       (newValues as any)[id][name] = newValue;
-      console.log("handleChange", name);
       setValues(path ? { [path]: newValues } : newValues);
-      console.log("handleChange", newValues);
     } else {
       setValues((values: any) => ({ ...values, [name]: newValue }));
     }

@@ -20,6 +20,8 @@ export interface IActivityProps {
   limit?: any;
   league_id: number;
   bonus: boolean;
+  delete?: boolean;
+  created?: boolean;
 }
 
 export interface IMemberProps {
@@ -31,6 +33,8 @@ export interface IMemberProps {
   privilege: string;
   member_activity_week?: any[];
   password: string;
+  delete?: boolean;
+  created?: boolean;
 }
 
 export interface ILeagueProps {

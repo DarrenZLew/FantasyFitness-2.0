@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useMemo } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import DeleteIcon from "@material-ui/icons/Delete";
 import TextField from "@material-ui/core/TextField";
@@ -28,8 +28,27 @@ const Activities: React.FC<ILeagueId> = props => {
   const useFormProps = {
     url: `http://localhost:5000/leagues/${leagueId}/activities`,
     initialState: { activities: [] as any[] },
-    onMountPath: "activities",
-    onMount: true
+    formPath: "activities",
+    updateFormValues: true,
+    onMount: true,
+    formKeys: useMemo(
+      () => [
+        {
+          name: "name"
+        },
+        {
+          name: "points"
+        },
+        {
+          name: "bonus"
+        },
+        {
+          name: "delete",
+          valueFormatter: () => false
+        }
+      ],
+      [leagueId]
+    )
   };
 
   const {
@@ -47,7 +66,7 @@ const Activities: React.FC<ILeagueId> = props => {
     setValues({ activities: [...newValues] });
   };
   const addActivity = () => {
-    const newActivity = { name: "", points: "", bonus: false };
+    const newActivity = { name: "", points: "", bonus: false, delete: false, created: true };
     setValues({ activities: [...values.activities, { ...newActivity }] });
   };
 
@@ -73,13 +92,13 @@ const Activities: React.FC<ILeagueId> = props => {
         <CardContainer center>
           <FormContainer handleSubmit={handleSubmit} loading={loading} {...formProps}>
             {values.activities.length > 0 && (
-              <Grid container spacing={1}>
+              <Fragment>
                 {values.activities.map((activity: IActivityProps, index: number) => {
                   const activityId = `activity-${index}`;
                   const activityPointsId = `activity-points-${index}`;
                   return (
-                    <Fragment key={index}>
-                      <Grid item md={6} sm={3} xs={6}>
+                    <Grid container spacing={1} key={index}>
+                      <Grid item md={3} sm={12} xs={12}>
                         <TextField
                           variant="outlined"
                           margin="normal"
@@ -93,7 +112,7 @@ const Activities: React.FC<ILeagueId> = props => {
                           onChange={handleInputChange("name", index, "activities")}
                         />
                       </Grid>
-                      <Grid item md={2} sm={3} xs={6}>
+                      <Grid item md={3} sm={12} xs={12}>
                         <TextField
                           variant="outlined"
                           margin="normal"
@@ -108,7 +127,15 @@ const Activities: React.FC<ILeagueId> = props => {
                           onChange={handleInputChange("points", index, "activities")}
                         />
                       </Grid>
-                      <Grid container item md={2} sm={3} xs={6} justify="center">
+                      <Grid
+                        container
+                        item
+                        md={3}
+                        sm={6}
+                        xs={6}
+                        justify="center"
+                        alignItems="center"
+                      >
                         <FormControlLabel
                           control={
                             <Checkbox
@@ -140,27 +167,43 @@ const Activities: React.FC<ILeagueId> = props => {
                       <Grid
                         container
                         item
-                        md={2}
-                        sm={3}
+                        md={3}
+                        sm={6}
                         xs={6}
                         alignItems="center"
                         justify="center"
                       >
-                        <Fab
-                          color="primary"
-                          variant="extended"
-                          className={classes.button}
-                          aria-label="delete activity"
-                          onClick={deleteActivity(index)}
-                        >
-                          <DeleteIcon />
-                          Delete
-                        </Fab>
+                        {!activity.created && (
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                value={activity.delete || false}
+                                checked={activity.delete}
+                                onChange={handleInputChange("delete", index, "activities")}
+                                color="primary"
+                              />
+                            }
+                            label="Remove Activity?"
+                            labelPlacement="top"
+                          />
+                        )}
+                        {activity.created && (
+                          <Fab
+                            color="primary"
+                            variant="extended"
+                            className={classes.button}
+                            aria-label="delete member"
+                            onClick={deleteActivity(index)}
+                          >
+                            <DeleteIcon />
+                            Delete
+                          </Fab>
+                        )}
                       </Grid>
-                    </Fragment>
+                    </Grid>
                   );
                 })}
-              </Grid>
+              </Fragment>
             )}
           </FormContainer>
         </CardContainer>

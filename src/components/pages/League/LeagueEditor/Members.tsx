@@ -1,11 +1,13 @@
 import React, { Fragment, useMemo } from "react";
 import { makeStyles } from "@material-ui/styles";
 import Button from "@material-ui/core/Button";
+import Checkbox from "@material-ui/core/Checkbox";
 import DeleteIcon from "@material-ui/icons/Delete";
-import Grid from "@material-ui/core/Grid";
 import Fab from "@material-ui/core/Fab";
+import Grid from "@material-ui/core/Grid";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import { useForm, useFetch } from "../../../../utils";
@@ -36,7 +38,8 @@ const Members: React.FC<ILeagueId> = props => {
   const useFormProps = {
     url: `http://localhost:5000/leagues/${leagueId}/members`,
     initialState: { members: [] as any[] },
-    onMountPath: "members",
+    formPath: "members",
+    updateFormValues: true,
     onMount: true,
     formKeys: useMemo(
       () => [
@@ -45,11 +48,15 @@ const Members: React.FC<ILeagueId> = props => {
         },
         {
           name: "privilege",
-          pathFn: (data: IMemberProps) => {
+          valueFormatter: (data: IMemberProps) => {
             return data.leagues
               ? data.leagues.find(league => league.league_id === +leagueId).privilege
               : null;
           }
+        },
+        {
+          name: "delete",
+          valueFormatter: () => false
         }
       ],
       [leagueId]
@@ -79,7 +86,7 @@ const Members: React.FC<ILeagueId> = props => {
     setValues({ members: [...newValues] });
   };
   const addMember = () => {
-    const newMember = { id: "", privilege: "member" };
+    const newMember = { id: "", privilege: "member", delete: false, created: true };
     setValues({ members: [...currMembers.members, { ...newMember }] });
   };
 
@@ -97,12 +104,12 @@ const Members: React.FC<ILeagueId> = props => {
         <CardContainer center>
           <FormContainer handleSubmit={handleSubmit} loading={loading} {...formContainerProps}>
             {currMembers.members.length > 0 && (
-              <Grid container spacing={1}>
+              <Fragment>
                 {currMembers.members.map(
                   (member: IMemberProps, index: number, currMembersList: IMemberProps[]) => {
                     return (
-                      <Fragment key={index}>
-                        <Grid item md={4} sm={6} xs={6}>
+                      <Grid container spacing={1} key={index}>
+                        <Grid item md={4} sm={12} xs={12}>
                           <FormControl fullWidth>
                             <InputLabel htmlFor="member-name">Member {index + 1}</InputLabel>
                             <Select
@@ -140,7 +147,7 @@ const Members: React.FC<ILeagueId> = props => {
                             </Select>
                           </FormControl>
                         </Grid>
-                        <Grid item md={4} sm={6} xs={6}>
+                        <Grid item md={4} sm={12} xs={12}>
                           <FormControl fullWidth>
                             <InputLabel htmlFor="member-privilege">Privilege</InputLabel>
                             <Select
@@ -164,25 +171,41 @@ const Members: React.FC<ILeagueId> = props => {
                           md={4}
                           sm={12}
                           xs={12}
-                          alignItems="center"
                           justify="center"
+                          alignItems="center"
                         >
-                          <Fab
-                            color="primary"
-                            variant="extended"
-                            className={classes.button}
-                            aria-label="delete member"
-                            onClick={deleteMember(index)}
-                          >
-                            <DeleteIcon />
-                            Delete
-                          </Fab>
+                          {!member.created && (
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  value={member.delete || false}
+                                  checked={member.delete}
+                                  onChange={handleInputChange("delete", index, "members")}
+                                  color="primary"
+                                />
+                              }
+                              label="Remove Member?"
+                              labelPlacement="top"
+                            />
+                          )}
+                          {member.created && (
+                            <Fab
+                              color="primary"
+                              variant="extended"
+                              className={classes.button}
+                              aria-label="delete member"
+                              onClick={deleteMember(index)}
+                            >
+                              <DeleteIcon />
+                              Delete
+                            </Fab>
+                          )}
                         </Grid>
-                      </Fragment>
+                      </Grid>
                     );
                   }
                 )}
-              </Grid>
+              </Fragment>
             )}
           </FormContainer>
         </CardContainer>
