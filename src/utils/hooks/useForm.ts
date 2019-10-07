@@ -32,6 +32,7 @@ export const useForm = ({
   extraBodyParams = {},
   formPath = "",
   updateFormValues = false,
+  onMount,
   formKeys
 }: IUseFormProps) => {
   // Form values
@@ -49,7 +50,7 @@ export const useForm = ({
   const [updateForm, setUpdateForm] = useState(updateFormValues);
 
   useEffect(() => {
-    if (updateForm) {
+    if (updateForm || onMount) {
       const fetchData = async () => {
         setLoading(true);
         const response = await fetching({ url });
@@ -66,7 +67,7 @@ export const useForm = ({
       };
       fetchData();
     }
-  }, [url, formPath, updateFormValues, formKeys, updateForm]);
+  }, [url, formPath, updateFormValues, formKeys, updateForm, onMount]);
 
   const createFormValues = (formValues: IInitialState, formKeys: IFormKeys[]) => {
     if (Array.isArray(formValues)) {

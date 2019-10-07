@@ -6,12 +6,10 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
-import { ILeagueProps } from "../../../types";
 
-const LeagueTable: React.FC<{ data: { value: ILeagueProps[]; message: string } }> = ({ data }) => {
-  const { value = [], message = "" } = data;
-  if (value.length > 0) {
-    const rows = value.map(({ id, name, type }) => {
+const LeagueTable: React.FC<{ data: [] }> = ({ data = [] }) => {
+  if (data.length > 0) {
+    const rows = data.map(({ id, name, type }) => {
       return (
         <TableRow key={id}>
           <TableCell>{id}</TableCell>
@@ -39,7 +37,7 @@ const LeagueTable: React.FC<{ data: { value: ILeagueProps[]; message: string } }
       </Table>
     );
   }
-  return <div>{message}</div>;
+  return <div>No League data available</div>;
 };
 
 export default LeagueTable;

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { fetching, queryString } from "../../utils";
 import { IFetchProps } from "../../types";
 
+// Deprecated
 interface IUseFetchProps extends IFetchProps {
   queryParams?: any;
   initialResponse?: any;

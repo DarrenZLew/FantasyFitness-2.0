@@ -10,7 +10,7 @@ import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import { useForm, useFetch } from "../../../../utils";
+import { useForm } from "../../../../utils";
 import { CardContainer } from "../../../common";
 import { FormContainer } from "../../../forms";
 import { ILeagueId, IMemberProps } from "../../../../types";
@@ -29,12 +29,12 @@ const Members: React.FC<ILeagueId> = props => {
   const classes = useStyles({});
   const { leagueId } = props;
 
-  const useFetchProps = {
+  const useFormOnMountProps = {
     url: `http://localhost:5000/auth/members`,
-    initialResponse: [] as any[]
+    initialState: [] as any[],
+    onMount: true
   };
 
-  const { response: allMembers = [] } = useFetch({ ...useFetchProps });
   const useFormProps = {
     url: `http://localhost:5000/leagues/${leagueId}/members`,
     initialState: { members: [] as any[] },
@@ -61,6 +61,8 @@ const Members: React.FC<ILeagueId> = props => {
       [leagueId]
     )
   };
+
+  const { values: allMembers = [] } = useForm({ ...useFormOnMountProps });
 
   const {
     values: currMembers = { members: [] },

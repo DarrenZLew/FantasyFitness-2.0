@@ -2,13 +2,13 @@ import React, { Fragment } from "react";
 import Grid from "@material-ui/core/Grid";
 import GeneralProfile from "./GeneralProfile";
 import GeneralAvatar from "./GeneralAvatar";
-import { useFetch } from "../../../../../utils";
+import { useForm } from "../../../../../utils";
 import { LoadingContainer, CardContainer } from "../../../../common";
 import { ILeagueId } from "../../../../../types";
 
 export const General: React.FC<ILeagueId> = ({ leagueId }) => {
   const leagueUrl = `http://localhost:5000/leagues/${leagueId}`;
-  let { response: { value: leagueData = {} } = {}, error, loading } = useFetch({ url: leagueUrl });
+  let { values: leagueData = {}, loading } = useForm({ url: leagueUrl, onMount: true });
   if (loading) {
     return (
       <Grid container spacing={4}>
@@ -27,6 +27,9 @@ export const General: React.FC<ILeagueId> = ({ leagueId }) => {
           <GeneralAvatar data={leagueData} leagueId={leagueId} />
         </Grid>
         <Grid item lg={8} md={12} xl={8} xs={12}>
+          <GeneralProfile data={leagueData} leagueId={leagueId} />
+        </Grid>
+        <Grid item lg={12} md={12} xl={12} xs={12}>
           <GeneralProfile data={leagueData} leagueId={leagueId} />
         </Grid>
       </Grid>

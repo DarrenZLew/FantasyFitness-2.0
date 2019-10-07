@@ -9,17 +9,8 @@ interface IProps {
   children: React.ReactElement | React.ReactElement[];
 }
 
-// const useStyles = makeStyles((theme: Theme) => ({
-//   root: props => {
-//     const defaultCSS = { padding: theme.spacing(4) };
-//     const CSS = props.center
-//       ? { ...defaultCSS, display: "flex", flexDirection: "column", alignItems: "center" }
-//       : { ...defaultCSS };
-//     return CSS;
-//   }
-// }));
-
-const useStyles = makeStyles((theme: Theme) => ({
+// Hack due to Typescript bugginess
+const useStylesWithCenter = makeStyles((theme: Theme) => ({
   root: {
     padding: theme.spacing(4),
     display: "flex",
@@ -28,12 +19,21 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-export const PaddingContainer: React.FC<IProps> = ({ children, paper, center }) => {
-  const classes = useStyles({ center });
-  if (paper) {
-    return <Paper className={classes.root}>{children}</Paper>;
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    padding: theme.spacing(4)
   }
-  return <div className={classes.root}>{children}</div>;
+}));
+
+export const PaddingContainer: React.FC<IProps> = ({ children, paper, center }) => {
+  const classes = useStyles({});
+  const classesWithCenter = useStylesWithCenter({});
+  const classToUse = center ? classesWithCenter : classes;
+
+  if (paper) {
+    return <Paper className={classToUse.root}>{children}</Paper>;
+  }
+  return <div className={classToUse.root}>{children}</div>;
 };
 
 export default PaddingContainer;

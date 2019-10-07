@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useFetch } from "../../../utils";
+import { useForm } from "../../../utils";
 import {
   CreateNewGroup,
   TopContainer,
@@ -20,7 +20,10 @@ const LeagueHomePage = () => {
   const { id: member_id } = auth;
   const leagueUrl = `http://localhost:5000/leagues/members/${member_id}`;
 
-  let { response: leagueData, error, loading } = useFetch({ url: leagueUrl });
+  let { values: leagueData, loading } = useForm({
+    url: leagueUrl,
+    onMount: true
+  });
 
   const createBtnText = "Create New League";
   return (

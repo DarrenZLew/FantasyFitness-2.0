@@ -29,17 +29,6 @@ const Season: React.FC<ILeagueId> = props => {
       start_date: new Date()
     },
     updateFormValues: true
-    // formKeys: useMemo(
-    //   () => [
-    //     {
-    //       name: "weeks"
-    //     },
-    //     {
-    //       name: "startDate"
-    //     }
-    //   ],
-    //   [leagueId]
-    // )
   };
 
   const {
@@ -65,7 +54,6 @@ const Season: React.FC<ILeagueId> = props => {
     ButtonComponent: ButtonComponent,
     type: "edit"
   };
-  console.log(values);
   return (
     <Grid container spacing={4}>
       <Grid item xs={12}>
