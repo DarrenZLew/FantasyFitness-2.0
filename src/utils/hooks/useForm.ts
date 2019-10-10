@@ -86,9 +86,6 @@ export const useForm = ({
     if (e) e.preventDefault();
     if (url) {
       setLoading(true);
-      if (updateFormValues) {
-        setUpdateForm(true);
-      }
       try {
         const { status, value, message } = await fetching({
           url,
@@ -101,6 +98,9 @@ export const useForm = ({
           if (errorCallback) errorCallback();
         }
         setResponse({ status, value, message });
+        if (updateFormValues) {
+          setUpdateForm(true);
+        }
       } catch (err) {
         console.warn(err);
         setResponse({
