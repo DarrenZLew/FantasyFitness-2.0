@@ -25,7 +25,7 @@ const Season: React.FC<ILeagueId> = props => {
   const useFormProps = {
     url: `http://localhost:5000/leagues/${leagueId}/seasons`,
     initialState: {
-      weeks: 0,
+      weeks_number: 0,
       start_date: new Date()
     },
     updateFormValues: true
@@ -67,12 +67,12 @@ const Season: React.FC<ILeagueId> = props => {
                     margin="normal"
                     required
                     fullWidth
-                    name="weeks"
+                    name="weeks_number"
                     label="Number of Weeks in Season"
-                    id="weeks"
+                    id="weeks_number"
                     type="number"
-                    value={values.weeks || ""}
-                    onChange={handleInputChange("weeks")}
+                    value={values.weeks_number || ""}
+                    onChange={handleInputChange("weeks_number")}
                     inputProps={{ min: "0", steps: "1" }}
                   />
                 </Grid>
