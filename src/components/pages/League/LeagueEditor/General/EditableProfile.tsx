@@ -1,11 +1,12 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import { useForm } from "../../../../../utils";
+import { useForm, useLeagueValue } from "../../../../../utils";
 import { FormContainer } from "../../../../forms";
 import { IGeneralProps } from "../../../../../types";
 
-const EditableProfile: React.FC<IGeneralProps> = ({ data, leagueId }) => {
+const EditableProfile: React.FC<IGeneralProps> = ({ data }) => {
+  const { leagueId } = useLeagueValue();
   const initialState = { name: data.name || "", type: data.type || "" };
   const url = `http://localhost:5000/leagues/${leagueId}`;
   const { values, handleInputChange, handleSubmit, loading, fetchResponse } = useForm({

@@ -1,47 +1,47 @@
 import React, { useState } from "react";
 import { AppBar, Tabs, Tab } from "@material-ui/core";
+import { RouteComponentProps } from "react-router-dom";
 import Members from "./Members";
 import Activities from "./Activities";
 import General from "./General/General";
 import Season from "./Season";
 import { PaddingContainer, TopContainer } from "../../../common";
-import { RouteComponentProps } from "react-router-dom";
 import { ILeagueId } from "../../../../types";
+import { LeagueProvider } from "../../../../context";
 
-interface IContentProps extends RouteComponentProps<ILeagueId> {
+interface IContentProps {
   pageID: number;
 }
 
-const Content: React.FC<IContentProps> = ({ pageID, match }) => {
-  const { leagueId } = match.params;
-  const pages = [
-    <General leagueId={leagueId} />,
-    <Activities leagueId={leagueId} />,
-    <Members leagueId={leagueId} />,
-    <Season leagueId={leagueId} />
-  ];
+const Content: React.FC<IContentProps> = ({ pageID }) => {
+  const pages = [<General />, <Activities />, <Members />, <Season />];
   return pages[pageID];
 };
 
-const LeagueEditor: React.FC<RouteComponentProps> = props => {
+interface IProps extends RouteComponentProps<ILeagueId> {}
+
+const LeagueEditor: React.FC<IProps> = props => {
   const [pageIndex, setPageIndex] = useState(0);
   const handleChangePage = (newIndex: number) => (e: React.EventHandler<any>) => {
     setPageIndex(newIndex);
   };
   const pageTabs = ["General", "Activities", "Members", "Seasons"];
+  const { leagueId } = props.match.params;
   return (
-    <TopContainer>
-      <AppBar component="div" color="primary" position="static" elevation={0}>
-        <Tabs value={pageIndex} textColor="inherit">
-          {pageTabs.map((page, index) => (
-            <Tab key={index} textColor="inherit" label={page} onClick={handleChangePage(index)} />
-          ))}
-        </Tabs>
-      </AppBar>
-      <PaddingContainer>
-        <Content pageID={pageIndex} {...props} />
-      </PaddingContainer>
-    </TopContainer>
+    <LeagueProvider leagueId={leagueId}>
+      <TopContainer>
+        <AppBar component="div" color="primary" position="static" elevation={0}>
+          <Tabs value={pageIndex} textColor="inherit">
+            {pageTabs.map((page, index) => (
+              <Tab key={index} textColor="inherit" label={page} onClick={handleChangePage(index)} />
+            ))}
+          </Tabs>
+        </AppBar>
+        <PaddingContainer>
+          <Content pageID={pageIndex} />
+        </PaddingContainer>
+      </TopContainer>
+    </LeagueProvider>
   );
 };
 

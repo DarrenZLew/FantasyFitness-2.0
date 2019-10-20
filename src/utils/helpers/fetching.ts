@@ -24,10 +24,10 @@ interface IConfigProps {
   body?: string;
 }
 
-export const fetching = async ({ url, bodyParams }: IFetchProps) => {
+export const fetching = async ({ url, bodyParams, method }: IFetchProps) => {
   const fetchFn = () => {
     const config: IConfigProps = {
-      method: bodyParams ? "POST" : "GET",
+      method: bodyParams || method === "POST" ? "POST" : "GET",
       headers: {
         "Content-Type": "application/json"
       }

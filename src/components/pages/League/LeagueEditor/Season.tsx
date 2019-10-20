@@ -5,9 +5,8 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { KeyboardDatePicker } from "@material-ui/pickers";
 import { FormContainer } from "../../../forms";
-import { useForm } from "../../../../utils";
+import { useForm, useLeagueValue } from "../../../../utils";
 import { CardContainer } from "../../../common";
-import { ILeagueId } from "../../../../types";
 
 const useStyles = makeStyles((theme: Theme) => ({
   button: {
@@ -18,9 +17,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const Season: React.FC<ILeagueId> = props => {
+const Season: React.FC = props => {
   const classes = useStyles({});
-  const { leagueId } = props;
+  const { leagueId } = useLeagueValue();
 
   const useFormProps = {
     url: `http://localhost:5000/leagues/${leagueId}/seasons`,
@@ -28,7 +27,8 @@ const Season: React.FC<ILeagueId> = props => {
       weeks_number: 0,
       start_date: new Date()
     },
-    updateFormValues: true
+    updateFormValues: true,
+    onMount: true
   };
 
   const {

@@ -8,9 +8,9 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import { FormContainer } from "../../../forms";
-import { useForm } from "../../../../utils";
+import { useForm, useLeagueValue } from "../../../../utils";
 import { CardContainer } from "../../../common";
-import { ILeagueId, IActivityProps } from "../../../../types";
+import { IActivityProps } from "../../../../types";
 
 const useStyles = makeStyles((theme: Theme) => ({
   button: {
@@ -21,9 +21,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const Activities: React.FC<ILeagueId> = props => {
+const Activities: React.FC = props => {
   const classes = useStyles({});
-  const { leagueId } = props;
+  const { leagueId } = useLeagueValue();
 
   const useFormProps = {
     url: `http://localhost:5000/leagues/${leagueId}/activities`,

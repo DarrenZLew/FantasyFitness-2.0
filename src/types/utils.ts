@@ -3,6 +3,7 @@ export interface IFetchProps {
   bodyParams?: {
     [key: string]: any;
   };
+  method?: string;
 }
 
 export interface IUseFormFetchResponse {

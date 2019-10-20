@@ -8,8 +8,8 @@ import {
   CardActions,
   Button
 } from "@material-ui/core";
-import DisplayProfile from "./DisplayProfile";
 import EditableProfile from "./EditableProfile";
+import { TableGrid } from "../../../../common";
 import { IGeneralProps } from "../../../../../types";
 
 const GeneralProfile: React.FC<IGeneralProps> = props => {
@@ -19,13 +19,24 @@ const GeneralProfile: React.FC<IGeneralProps> = props => {
     toggleEdit(!editable);
   };
 
+  const leagueDisplayItems = [
+    {
+      header: "League Name",
+      value: props.data.name
+    },
+    {
+      header: "League Type",
+      value: props.data.type
+    }
+  ];
+
   return (
     <Card>
       <CardHeader title="Profile" />
       <Divider />
       <CardContent>
         <Grid container spacing={3}>
-          {!editable ? <DisplayProfile {...props} /> : <EditableProfile {...props} />}
+          {!editable ? <TableGrid items={leagueDisplayItems} /> : <EditableProfile {...props} />}
         </Grid>
       </CardContent>
       <CardActions>

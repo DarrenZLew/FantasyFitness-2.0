@@ -10,10 +10,10 @@ import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import { useForm } from "../../../../utils";
+import { useForm, useLeagueValue } from "../../../../utils";
 import { CardContainer } from "../../../common";
 import { FormContainer } from "../../../forms";
-import { ILeagueId, IMemberProps } from "../../../../types";
+import { IMemberProps } from "../../../../types";
 import { Theme } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -25,9 +25,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const Members: React.FC<ILeagueId> = props => {
+const Members: React.FC = props => {
   const classes = useStyles({});
-  const { leagueId } = props;
+  const { leagueId } = useLeagueValue();
 
   const useFormOnMountProps = {
     url: `http://localhost:5000/auth/members`,
