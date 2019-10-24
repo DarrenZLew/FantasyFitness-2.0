@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useForm } from "../../../utils";
+import { useForm, useAuthValue } from "../../../utils";
 import {
   CreateNewGroup,
   TopContainer,
@@ -7,7 +7,6 @@ import {
   LoadingContainer,
   CardContainer
 } from "../../common";
-import { authContext } from "../../../context";
 import LeagueTable from "./LeagueTable";
 
 const LeagueHomePage = () => {
@@ -16,7 +15,7 @@ const LeagueHomePage = () => {
     type: "create"
   };
 
-  const { auth } = useContext(authContext);
+  const { auth } = useAuthValue();
   const { id: member_id } = auth;
   const leagueUrl = `http://localhost:5000/leagues/members/${member_id}`;
 

@@ -3,8 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import { FormContainer } from "../../../forms";
 import { ButtonTwoGroup, ToastContainer } from "../../../common";
-import { useForm, useRedirect } from "../../../../utils";
-import { authContext } from "../../../../context";
+import { useForm, useRedirect, useAuthValue } from "../../../../utils";
 
 const LeagueInfo: React.FC = () => {
   const initialState = {
@@ -12,7 +11,7 @@ const LeagueInfo: React.FC = () => {
     type: ""
   };
 
-  const { auth } = useContext(authContext);
+  const { auth } = useAuthValue();
   const { id: member_id } = auth;
   const url = "http://localhost:5000/leagues";
   const extraBodyParams = { member_id };

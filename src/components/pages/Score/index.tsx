@@ -9,8 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Activities from "./Activities";
 import Bonuses from "./Bonuses";
-import { useLeagueValue, useScoreForm } from "../../../utils";
-import { authContext } from "../../../context";
+import { useLeagueValue, useScoreForm, useAuthValue } from "../../../utils";
 
 function TabPanel(props: any) {
   const { children, value, index, ...other } = props;
@@ -54,9 +53,8 @@ const useStyles = makeStyles(theme => ({
 export const Score = (props: any) => {
   const classes = useStyles({});
   const [value, setValue] = React.useState(0);
-  const { auth } = useContext(authContext);
+  const { auth } = useAuthValue();
   const { id: member_id } = auth;
-
   const { leagueId } = useLeagueValue();
   const useScoreFormProps = {
     url: `http://localhost:5000/leagues/${leagueId}/activities`,

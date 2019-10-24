@@ -28,10 +28,7 @@ const { Provider } = seasonContext;
 export const SeasonProvider: React.FC<ILeagueId> = ({ children, leagueId }) => {
   const useFormProps = {
     url: `http://localhost:5000/leagues/${leagueId}/seasons`,
-    initialState: {
-      weeks_number: "0",
-      start_date: ""
-    },
+    initialState: {},
     updateFormValues: true
   };
 

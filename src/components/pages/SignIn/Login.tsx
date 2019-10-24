@@ -8,8 +8,7 @@ import Container from "@material-ui/core/Container";
 import { Link as RouterLink, Redirect } from "react-router-dom";
 import { FormContainer } from "../../forms";
 import { TopContainer, PaddingContainer, ToastContainer } from "../../common";
-import { useForm, useRedirect } from "../../../utils";
-import { authContext } from "../../../context";
+import { useForm, useRedirect, useAuthValue } from "../../../utils";
 import { IUserAuthDataProps } from "../../../types";
 
 const BottomForm = () => (
@@ -33,9 +32,9 @@ export const Login: React.FC = () => {
     password: "",
     remember: false
   };
-  const auth = useContext(authContext);
+  const { setAuthStatus } = useAuthValue();
   const successCallback = (userAuthData: IUserAuthDataProps) => {
-    auth.setAuthStatus({ ...userAuthData });
+    setAuthStatus({ ...userAuthData });
   };
   const url = "http://localhost:5000/auth/login";
 
