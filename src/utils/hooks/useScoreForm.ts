@@ -13,6 +13,7 @@ interface IFormKeys {
 
 interface IUseFormProps extends IFetchProps {
   initialState?: IInitialState[] | IInitialState;
+  updateURL?: string;
   successCallback?: (data: any) => void;
   errorCallback?: () => void;
   extraBodyParams?: {
@@ -24,9 +25,10 @@ interface IUseFormProps extends IFetchProps {
   formKeys?: IFormKeys[];
 }
 
-export const useForm = ({
+export const useScoreForm = ({
   initialState,
   url,
+  updateURL,
   successCallback,
   errorCallback,
   extraBodyParams = {},
@@ -35,12 +37,8 @@ export const useForm = ({
   onMount,
   formKeys
 }: IUseFormProps) => {
-  // Form input values
+  // Form values
   const [values, setValues] = useState<IInitialState[] | IInitialState | any>(initialState);
-  // Form initial values
-  const [initialValues, setInitialValues] = useState<IInitialState[] | IInitialState | any>(
-    initialState
-  );
   // Response from on form create url
   const [onFormCreateValues, setOnFormCreateValues] = useState(null);
   // Response from submit form
@@ -55,7 +53,6 @@ export const useForm = ({
 
   useEffect(() => {
     if (updateForm || onMount) {
-      console.log("TEST");
       const fetchData = async () => {
         setLoading(true);
         const response = await fetching({ url });
@@ -66,7 +63,6 @@ export const useForm = ({
         if (formKeys) {
           formValues = createFormValues(formValues, formKeys);
         }
-        setInitialValues(formPath ? { [formPath]: formValues } : formValues);
         setValues(formPath ? { [formPath]: formValues } : formValues);
         setUpdateForm(false);
         setLoading(false);
@@ -88,77 +84,42 @@ export const useForm = ({
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    if (e) e.preventDefault();
-    if (url) {
-      setLoading(true);
-      try {
-        const { status, value, message } = await fetching({
-          url,
-          bodyParams: { ...values, ...extraBodyParams }
-        });
-        if (status === "success") {
-          if (successCallback) successCallback(value);
-        }
-        if (status === "error") {
-          if (errorCallback) errorCallback();
-        }
-        setResponse({ status, value, message });
-        if (updateFormValues) {
-          setUpdateForm(true);
-        }
-      } catch (err) {
-        console.warn(err);
-        setResponse({
-          status: "error",
-          value: err,
-          message: "unknown error caught in useForm, check console"
-        });
-      } finally {
-        setLoading(false);
-      }
+  const handleSubmit = async (data: any) => {
+    if (updateURL) {
+      console.log(data);
+      //   setLoading(true);
+      //   try {
+      //     const { status, value, message } = await fetching({
+      //       url: updateURL,
+      //       bodyParams: { ...values, ...extraBodyParams }
+      //     });
+      //     if (status === "success") {
+      //       if (successCallback) successCallback(value);
+      //     }
+      //     if (status === "error") {
+      //       if (errorCallback) errorCallback();
+      //     }
+      //     setResponse({ status, value, message });
+      //     if (updateFormValues) {
+      //       setUpdateForm(true);
+      //     }
+      //   } catch (err) {
+      //     console.warn(err);
+      //     setResponse({
+      //       status: "error",
+      //       value: err,
+      //       message: "unknown error caught in useForm, check console"
+      //     });
+      //   } finally {
+      //     setLoading(false);
+      //   }
     }
-  };
-
-  const handleInputChange = (name: string, id?: number, path?: string) => (
-    e:
-      | React.FormEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-      | React.ChangeEvent<{ name?: string; value: unknown }>
-  ) => {
-    e.persist();
-    let target = e.target as HTMLInputElement;
-    let newValue: any = target.value;
-    if (target.type === "checkbox") {
-      newValue = target.checked;
-    } else if (target.type === "number" && (newValue < 0 || Number.isInteger(newValue))) {
-      newValue = 0;
-    }
-    if (Array.isArray(values) || (typeof values === "object" && path)) {
-      const newValues = path && hasKey(values, path) ? [...values[path]] : [...values];
-      (newValues as any)[id][name] = newValue;
-      setValues(path ? { [path]: newValues } : newValues);
-    } else {
-      setValues((values: any) => ({ ...values, [name]: newValue }));
-    }
-  };
-
-  const handleDateChange = (name: string) => (date: Date) => {
-    setValues((values: any) => ({ ...values, [name]: date }));
-  };
-
-  const handleSetValues = (newValues: any) => {
-    setValues(newValues);
   };
 
   return {
-    handleInputChange: (name: string, id?: number, path?: string) =>
-      handleInputChange(name, id, path),
-    handleDateChange: (name: string) => handleDateChange(name),
     handleSubmit,
     values,
-    initialValues,
     setValues,
-    handleSetValues,
     fetchResponse,
     loading,
     onFormCreateValues

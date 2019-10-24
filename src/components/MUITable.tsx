@@ -2,13 +2,13 @@ import React from "react";
 import MaterialTable from "material-table";
 
 interface IMUITableProps {
-  columns: any;
-  data: any;
-  actions: any;
-  options: object;
-  title: string;
-  editable: any;
-  detailPanel: any;
+  columns?: any;
+  data?: any;
+  actions?: any;
+  options?: object;
+  title?: string;
+  editable?: any;
+  detailPanel?: any;
 }
 
 const MUITable = ({

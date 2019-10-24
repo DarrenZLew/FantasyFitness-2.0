@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { KeyboardDatePicker } from "@material-ui/pickers";
 import { FormContainer } from "../../../forms";
-import { useForm, useLeagueValue } from "../../../../utils";
+import { useForm, useLeagueValue, useSeasonValue } from "../../../../utils";
 import { CardContainer } from "../../../common";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -21,26 +21,36 @@ const Season: React.FC = props => {
   const classes = useStyles({});
   const { leagueId } = useLeagueValue();
 
-  const useFormProps = {
-    url: `http://localhost:5000/leagues/${leagueId}/seasons`,
-    initialState: {
-      weeks_number: 0,
-      start_date: new Date()
-    },
-    updateFormValues: true,
-    onMount: true
-  };
-
   const {
-    values,
-    handleInputChange,
-    handleDateChange,
-    handleSubmit,
-    loading,
-    fetchResponse
-  } = useForm({
-    ...useFormProps
-  });
+    seasonValues: {
+      values,
+      handleSubmit,
+      handleInputChange,
+      handleDateChange,
+      loading,
+      fetchResponse
+    }
+  } = useSeasonValue();
+
+  // const useFormProps = {
+  //   url: `http://localhost:5000/leagues/${leagueId}/seasons`,
+  //   initialState: {
+  //     weeks_number: 0,
+  //     start_date: new Date()
+  //   },
+  //   updateFormValues: true
+  // };
+
+  // const {
+  //   values,
+  //   handleInputChange,
+  //   handleDateChange,
+  //   handleSubmit,
+  //   loading,
+  //   fetchResponse
+  // } = useForm({
+  //   ...useFormProps
+  // });
 
   const ButtonComponent = () => {
     return (

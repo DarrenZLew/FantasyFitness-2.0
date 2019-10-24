@@ -14,6 +14,7 @@ export interface IGeneralProps extends ILeagueId {
 }
 
 export interface IActivityProps {
+  id: number;
   name: string;
   points: number;
   member_activity_week?: any[];

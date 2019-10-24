@@ -10,7 +10,6 @@ export const General: React.FC = () => {
   const { leagueId } = useLeagueValue();
   const leagueUrl = `http://localhost:5000/leagues/${leagueId}`;
   let { values: leagueData = {}, loading } = useForm({ url: leagueUrl, onMount: true });
-
   if (loading) {
     return (
       <Grid container spacing={4}>
