@@ -47,7 +47,6 @@ export const SeasonProvider: React.FC<ILeagueId> = ({ children, leagueId }) => {
   } = useForm({
     ...useFormProps
   });
-  console.log(values);
   return (
     <Provider
       value={{

@@ -55,7 +55,6 @@ export const useForm = ({
 
   useEffect(() => {
     if (updateForm || onMount) {
-      console.log("TEST");
       const fetchData = async () => {
         setLoading(true);
         const response = await fetching({ url });
