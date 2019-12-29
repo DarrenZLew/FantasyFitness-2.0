@@ -8,5 +8,5 @@ export * from "./utils";
 export * from "./constants";
 // IRouteItemsProps
 export * from "./menu";
-// IGeneralProps, IActivityProps, IMemberProps, ILeagueProps, ILeagueId
+// IGeneralProps, IActivityProps, IMemberProps, ILeagueProps, ILeagueId, ISeasonProps
 export * from "./pages";

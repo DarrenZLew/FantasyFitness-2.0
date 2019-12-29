@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { KeyboardDatePicker } from "@material-ui/pickers";
 import { FormContainer } from "../../../forms";
-import { useLeagueValue, useSeasonValue } from "../../../../utils";
+import { useSeasonValue } from "../../../../utils";
 import { CardContainer } from "../../../common";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -19,11 +19,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const Season: React.FC = props => {
   const classes = useStyles({});
-  const { leagueId } = useLeagueValue();
 
   const {
     seasonValues: {
       values,
+      seasonDisabled,
       handleSubmit,
       handleInputChange,
       handleDateChange,
@@ -34,7 +34,13 @@ const Season: React.FC = props => {
 
   const ButtonComponent = () => {
     return (
-      <Button type="submit" variant="contained" color="primary" className={classes.submit}>
+      <Button
+        type="submit"
+        disabled={seasonDisabled}
+        variant="contained"
+        color="primary"
+        className={classes.submit}
+      >
         Update Season
       </Button>
     );
@@ -61,7 +67,7 @@ const Season: React.FC = props => {
                     label="Number of Weeks in Season"
                     id="weeks_number"
                     type="number"
-                    value={values.weeks_number || ""}
+                    value={values.weeks_number || 0}
                     onChange={handleInputChange("weeks_number")}
                     inputProps={{ min: "0", steps: "1" }}
                   />

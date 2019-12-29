@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { fetching, hasKey } from "../../utils";
+import { fetching, hasKey, convertToUTC } from "../../utils";
 import { IFetchProps, IUseFormFetchResponse } from "../../types";
 
 interface IInitialState {
@@ -142,7 +142,7 @@ export const useForm = ({
   };
 
   const handleDateChange = (name: string) => (date: Date) => {
-    setValues((values: any) => ({ ...values, [name]: date }));
+    setValues((values: any) => ({ ...values, [name]: convertToUTC(date) }));
   };
 
   const handleSetValues = (newValues: any) => {

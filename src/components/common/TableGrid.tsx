@@ -11,7 +11,7 @@ const useStyles = makeStyles(themes => ({
 
 interface ITableGridProps {
   header: string;
-  value: string;
+  value: any;
 }
 
 export const TableGrid: React.FC<{ items: ITableGridProps[] }> = ({ items }) => {

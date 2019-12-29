@@ -14,13 +14,13 @@ import { TableGrid, LoadingContainer } from "../../../../common";
 const GeneralSeason: React.SFC = () => {
   const { leagueId } = useLeagueValue();
   const {
-    seasonValues: { initialValues, handleSetValues, loading, fetchResponse }
+    seasonValues: { seasonDisabled, values, initialValues, handleSetValues, loading, fetchResponse }
   } = useSeasonValue();
 
   const seasonDisplayItems = [
     {
       header: "Number of Weeks in Season",
-      value: initialValues.weeks_number || "0"
+      value: initialValues.weeks_number || 0
     },
     {
       header: "Start Date",
@@ -29,13 +29,13 @@ const GeneralSeason: React.SFC = () => {
   ];
 
   const toggleSeasonActivate = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    const url = initialValues.disabled
+    const url = seasonDisabled
       ? `http://localhost:5000/leagues/${leagueId}/seasons/activate`
       : `http://localhost:5000/leagues/${leagueId}/seasons/deactivate`;
     e.preventDefault();
     const response = await fetching({ url, method: "POST" });
     if (response.status === "success") {
-      handleSetValues({ ...initialValues, disabled: !initialValues.disabled });
+      handleSetValues({ ...values, disabled: !values.disabled });
     }
   };
 
@@ -52,7 +52,7 @@ const GeneralSeason: React.SFC = () => {
       </LoadingContainer>
       <CardActions>
         <Button color="primary" variant="contained" onClick={toggleSeasonActivate}>
-          {initialValues.disabled ? "Start Season" : "Stop Season"}
+          {seasonDisabled ? "Start Season" : "Stop Season"}
         </Button>
       </CardActions>
     </Card>

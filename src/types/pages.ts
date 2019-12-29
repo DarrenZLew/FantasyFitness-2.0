@@ -44,3 +44,20 @@ export interface ILeagueProps {
   name: string;
   type: string;
 }
+
+export interface ISeasonProps {
+  id: number | string;
+  weeks_number: number;
+  start_date: string | Date;
+  disabled: boolean;
+  weeks: IWeekProps[];
+}
+
+export interface IWeekProps {
+  id: number;
+  index: number;
+  season_id: number;
+  member_activity_week: IMemberActivityWeekProps[];
+}
+
+export interface IMemberActivityWeekProps {}

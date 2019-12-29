@@ -9,7 +9,13 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Activities from "./Activities";
 import Bonuses from "./Bonuses";
-import { useLeagueValue, useScoreForm, useAuthValue } from "../../../utils";
+import {
+  useLeagueValue,
+  useScoreForm,
+  useAuthValue,
+  useSeasonValue,
+  convertFromUTC
+} from "../../../utils";
 
 function TabPanel(props: any) {
   const { children, value, index, ...other } = props;
@@ -56,19 +62,25 @@ export const Score = (props: any) => {
   const { auth } = useAuthValue();
   const { id: member_id } = auth;
   const { leagueId } = useLeagueValue();
+  const extraBodyParams = { member_id };
+  const {
+    seasonValues: {
+      values: { id: season_id, start_date },
+      activeWeekNumber,
+      activeWeekRange,
+      activeWeekId
+    }
+  } = useSeasonValue();
   const useScoreFormProps = {
-    url: `http://localhost:5000/leagues/${leagueId}/activities`,
-    updateUrl: "",
+    url: `http://localhost:5000/leagues/${leagueId}/seasons/${season_id}/weeks/${activeWeekId}/activities`,
     updateFormValues: true,
-    onMount: true
+    onMount: true,
+    extraBodyParams
   };
 
   const { values = [], handleSubmit, loading, fetchResponse } = useScoreForm({
     ...useScoreFormProps
   });
-
-  console.log(values, member_id);
-
   // function handleChange(event, newValue) {
   //   setValue(newValue);
   // }
@@ -92,6 +104,8 @@ export const Score = (props: any) => {
           <Tab label="Bonuses" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
+      <div>Week {activeWeekNumber}</div>
+      <div>{activeWeekRange}</div>
       <SwipeableViews index={value} onChangeIndex={handleChangeIndex}>
         <TabPanel value={value} index={0}>
           <Activities activities={values} handleSubmit={handleSubmit} />
